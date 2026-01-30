@@ -1,0 +1,21 @@
+@use 'sass:map';
+@use 'colors';
+
+$light: map.get(colors.$themes, light);
+$dark: map.get(colors.$themes, dark);
+
+@mixin theme-light {
+  --bg: map.get($light, background);
+  --surface: map.get($light, surface);
+  --text: map.get($light, text);
+  --primary: map.get($light, primary);
+  --primary-soft: map.get($light, primary-soft);
+}
+
+@mixin theme-dark {
+  --bg: map.get($dark, background);
+  --surface: map.get($dark, surface);
+  --text: map.get($dark, text);
+  --primary: map.get($dark, primary);
+  --primary-soft: map.get($dark, primary-soft);
+}

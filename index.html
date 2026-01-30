@@ -1,36 +1,35 @@
  <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="/src/style.css" rel="stylesheet" />
   <title>Dashboard</title>
 </head>
 
-<body class="min-h-screen bg-gray-950 text-white">
+<body class="min-h-screen bg-(--bg) text-(--text)">
 
   <!-- Layout global -->
   <div id="layout" class="grid min-h-screen grid-cols-[256px_1fr] transition-all duration-300">
 
     <!-- Aside -->
-    <aside id="aside" class="bg-slate-800 flex flex-col">
-      <div class="h-16 flex items-center justify-center font-bold border-b border-slate-700">
+    <aside id="aside" class="flex flex-col">
+      <div class="h-16 flex items-center justify-center font-bold border-b">
         Menu
       </div>
 
       <nav class="flex-1 p-4 space-y-2 text-sm">
-        <a class="flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-700">
+        <a class="flex items-center gap-3 px-3 py-2 rounded">
           <span class="menu-label">Accueil</span>
         </a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-700">
+        <a class="flex items-center gap-3 px-3 py-2 rounded">
           <span class="menu-label">Utilisateurs</span>
         </a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-700">
+        <a class="flex items-center gap-3 px-3 py-2 rounded">
           <span class="menu-label">Statistiques</span>
         </a>
       </nav>
 
-      <footer class="p-3 text-xs text-center text-slate-400 border-t border-slate-700">
+      <footer class="p-3 text-xs text-center text-slate-400 border-t">
         © 2026
       </footer>
     </aside>
@@ -39,9 +38,10 @@
     <div class="flex flex-col min-h-screen">
 
       <!-- Header -->
-      <header class="h-16 bg-slate-800 border-b border-slate-700 flex items-center px-6 justify-between">
-        <button id="toggle" class="text-white">☰</button>
+      <header class="h-16 border-b flex items-center px-6 justify-between">
+        <button id="toggle" class="">☰</button>
         <h1 class="text-lg font-semibold">Tableau de bord</h1>
+        <button id="themeToggle" class="btn btn-primary">Changer thème</button>
       </header>
 
       <!-- Main scrollable -->
@@ -49,38 +49,33 @@
 
         <!-- Grille de cartes -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-slate-600 rounded shadow p-4">Carte 1</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 2</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 3</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 4</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 5</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 6</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 7</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 8</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 9</div>
+          <div class="card">Carte 1</div>
+          <div class="card">Carte 2</div>
+          <div class="card">Carte 3</div>
+          <div class="card">Carte 4</div>
+          <div class="card">Carte 5</div>
+          <div class="card">Carte 6</div>
+          <div class="card">Carte 7</div>
+          <div class="card">Carte 8</div>
+          <div class="card">Carte 9</div>
         </section>
 
       </main>
     </div>
   </div>
 
-  <!-- JS minimal -->
+
+  <script type="module" src="/src/main.ts"></script>
   <script>
-    const toggle = document.getElementById('toggle')
-    const layout = document.getElementById('layout')
-    const aside = document.getElementById('aside')
-    const labels = document.querySelectorAll('.menu-label')
+    const themeToggle = document.getElementById('themeToggle')
 
-    let collapsed = false
+    themeToggle?.addEventListener('click', () => {
+        const root = document.documentElement
+        const current = root.getAttribute('data-theme')
 
-    toggle.addEventListener('click', () => {
-      collapsed = !collapsed
-
-      layout.classList.toggle('grid-cols-[256px_1fr]')
-      layout.classList.toggle('grid-cols-[80px_1fr]')
-
-      labels.forEach(label => label.classList.toggle('hidden'))
+        root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark')
+        console.log(root.getAttribute('data-theme'))
     })
-  </script>
+    </script>
 </body>
 </html>

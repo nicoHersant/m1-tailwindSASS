@@ -1,0 +1,14 @@
+@use '../utilities/themes';
+
+:root {
+  @include themes.theme-light;
+}
+
+[data-theme='dark'] {
+  @include themes.theme-dark;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}

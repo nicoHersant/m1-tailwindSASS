@@ -1,8 +1,3 @@
-import './style.css'
-
-document.documentElement.classList.toggle(
-  "dark",
-  localStorage.theme === "dark" ||
-    (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-);
+import './style.css'          // Tailwind
+import './styles/main.scss'   // SASS (thèmes, composants)
 

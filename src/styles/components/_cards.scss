@@ -1,0 +1,5 @@
+.card {
+  background-color: var(--surface);
+  color: var(--text);
+  @apply p-4 shadow rounded;
+}

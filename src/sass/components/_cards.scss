@@ -1,0 +1,115 @@
+// ============================================================
+//  COMPONENTS / CARDS
+//
+//  Cartes de présentation des mangas.
+//  Structure BEM complète :
+//
+//  .manga-card              → Block
+//  .manga-card__cover       → Element (image de couverture)
+//  .manga-card__body        → Element (zone de texte)
+//  .manga-card__head        → Element (titre + badge)
+//  .manga-card__title       → Element
+//  .manga-card__author      → Element
+//  .manga-card__desc        → Element (description tronquée)
+//  .manga-card__footer      → Element (note, prix, année)
+//  .manga-card__meta        → Element (étoiles + volumes)
+//  .manga-card__price       → Element (prix mis en valeur)
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+
+.manga-card {
+  // Le mixin card-base fournit le fond, la bordure et l'ombre
+  @include mx.card-base;
+  @include mx.flex-column;
+  overflow: hidden;
+  transition: transform v.$transition-slow, box-shadow v.$transition-slow;
+
+  // Effet de survol : la carte remonte légèrement
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: v.$shadow-xl;
+  }
+
+  // --- Element : image de couverture ---
+  &__cover {
+    width: 100%;
+    height: 13rem;       // ~208px — hauteur fixe pour l'homogénéité
+    object-fit: cover;   // recadrage intelligent sans déformation
+    display: block;
+  }
+
+  // --- Element : corps de la carte ---
+  &__body {
+    padding: v.$spacing-4;
+    @include mx.flex-column;
+    flex: 1;              // s'étire pour occuper l'espace restant
+    gap: v.$spacing-2;
+  }
+
+  // --- Element : en-tête (titre + badge) ---
+  &__head {
+    @include mx.flex-align(space-between);
+    gap: v.$spacing-2;
+    align-items: flex-start;
+  }
+
+  // --- Element : titre ---
+  &__title {
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+    line-height: v.$line-height-tight;
+  }
+
+  // --- Element : auteur ---
+  &__author {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+  }
+
+  // --- Element : description ---
+  // Tronquée à 3 lignes via le mixin line-clamp
+  &__desc {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    line-height: v.$line-height-relaxed;
+    flex: 1;   // pousse le footer vers le bas
+    @include mx.line-clamp(3);
+  }
+
+  // --- Element : pied de carte ---
+  &__footer {
+    @include mx.flex-align(space-between);
+    padding-top: v.$spacing-3;
+    margin-top: auto;
+    border-top: 1px solid v.$color-border;
+  }
+
+  // --- Element : métadonnées (note + volumes) ---
+  &__meta {
+    @include mx.flex-align;
+    gap: v.$spacing-1;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+
+    // Étoile de notation
+    .star {
+      color: #f59e0b;   // amber / jaune
+    }
+  }
+
+  // --- Element : prix ---
+  &__price {
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-success;
+  }
+
+  // --- Element : année ---
+  &__year {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-faint;
+  }
+}

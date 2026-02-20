@@ -12,9 +12,14 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main:  resolve(__dirname, 'index.html'),
-        table: resolve(__dirname, 'table.html'),
-        stats: resolve(__dirname, 'stats.html'),
+        // Pages Tailwind
+        main:      resolve(__dirname, 'index.html'),
+        table:     resolve(__dirname, 'table.html'),
+        stats:     resolve(__dirname, 'stats.html'),
+        // Pages SASS (version sans Tailwind)
+        sassIndex: resolve(__dirname, 'sass-index.html'),
+        sassTable: resolve(__dirname, 'sass-table.html'),
+        sassStats: resolve(__dirname, 'sass-stats.html'),
       }
     }
   }

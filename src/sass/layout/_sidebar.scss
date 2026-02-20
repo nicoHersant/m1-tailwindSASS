@@ -1,0 +1,125 @@
+// ============================================================
+//  LAYOUT / SIDEBAR
+//
+//  Barre de navigation latérale.
+//  Démontre le BEM (Block Element Modifier) avec SASS :
+//  .sidebar          → Block
+//  .sidebar__logo    → Element (__)
+//  .sidebar__link    → Element
+//  .sidebar__link--active → Modifier (--)
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+
+// --- Block : sidebar ---
+.sidebar {
+  @include mx.flex-column;
+  background-color: v.$color-bg-card;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  @include mx.custom-scrollbar;
+
+  // --- Element : logo / titre ---
+  &__logo {
+    @include mx.flex-center;
+    gap: v.$spacing-2;
+    height: v.$header-height;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+    border-bottom: 1px solid v.$color-border;
+    padding: 0 v.$spacing-4;
+    overflow: hidden;
+    // Empêche le contenu de déborder lors de l'animation
+    white-space: nowrap;
+  }
+
+  // Icône du logo (SVG)
+  &__logo-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;   // ne rétrécit jamais
+    color: v.$color-accent;
+  }
+
+  // --- Element : navigation ---
+  &__nav {
+    flex: 1;
+    padding: v.$spacing-3;
+
+    // Espacement entre chaque lien
+    > * + * {
+      margin-top: v.$spacing-1;
+    }
+  }
+
+  // --- Element : lien de navigation ---
+  &__link {
+    @include mx.flex-align;
+    gap: v.$spacing-3;
+    padding: v.$spacing-2 v.$spacing-3;
+    border-radius: v.$radius-lg;
+    font-size: v.$font-size-sm;
+    font-weight: v.$font-weight-medium;
+    color: v.$color-text-secondary;
+    transition: background-color v.$transition-base, color v.$transition-base;
+    // Suppression de la décoration de lien héritée
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+
+    // Pseudo-classe de survol — syntaxe SASS : & = sélecteur parent (.sidebar__link)
+    &:hover {
+      background-color: v.$color-bg-hover;
+      color: v.$color-text-primary;
+    }
+
+    // --- Modifier : lien actif (page courante) ---
+    &--active {
+      background-color: v.$color-bg-active;
+      color: v.$color-text-primary;
+
+      // Quand actif ET survolé : même style
+      &:hover {
+        background-color: v.$color-bg-active;
+      }
+    }
+
+    // Accessibilité : focus clavier
+    @include mx.focus-ring;
+  }
+
+  // --- Element : icône SVG du lien ---
+  &__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  // --- Element : texte du lien ---
+  // Masqué via .is-hidden (JS toggle) quand la sidebar est réduite
+  &__label {
+    transition: opacity v.$transition-fast;
+
+    &.is-hidden {
+      // On utilise visibility:hidden plutôt que display:none
+      // pour conserver l'espace et permettre une transition douce
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+      overflow: hidden;
+    }
+  }
+
+  // --- Element : footer ---
+  &__footer {
+    padding: v.$spacing-3;
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    text-align: center;
+    border-top: 1px solid v.$color-border;
+  }
+}

@@ -1,0 +1,120 @@
+// ============================================================
+//  COMPONENTS / TABLE
+//
+//  Tableau de données : wrapper, en-têtes, cellules, lignes.
+//
+//  .data-table-wrapper  → conteneur avec overflow pour responsive
+//  .data-table          → l'élément <table>
+//  .data-table__th      → en-tête de colonne
+//  .data-table__row     → ligne de données
+//  .data-table__cell    → cellule de données
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+
+// --- Conteneur responsive ---
+// overflow-x: auto permet un scroll horizontal sur petits écrans
+// plutôt que de casser la mise en page.
+.data-table-wrapper {
+  @include mx.card-base;
+  overflow: hidden;   // clip les coins arrondis
+
+  // Le scroll horizontal s'applique sur cet élément interne
+  overflow-x: auto;
+
+  // Scrollbar personnalisée pour le scroll horizontal
+  &::-webkit-scrollbar        { height: 6px; }
+  &::-webkit-scrollbar-track  { background: v.$color-bg-surface; }
+  &::-webkit-scrollbar-thumb  {
+    background: v.$color-bg-hover;
+    border-radius: v.$radius-full;
+  }
+}
+
+// --- Tableau ---
+.data-table {
+  width: 100%;
+  min-width: 600px;   // largeur minimale avant scroll horizontal
+
+  // --- En-tête ---
+  &__th {
+    padding: v.$spacing-3 v.$spacing-4;
+    text-align: left;
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-semibold;
+    color: v.$color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: v.$color-bg-surface;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;    // évite la sélection de texte au clic
+    transition: color v.$transition-fast;
+
+    &:hover {
+      color: v.$color-text-secondary;
+    }
+
+    // Indicateur de tri
+    .sort-icon {
+      margin-left: v.$spacing-1;
+      opacity: 0.4;
+      transition: opacity v.$transition-fast;
+    }
+
+    &.is-sorted .sort-icon {
+      opacity: 1;
+      color: v.$color-accent;
+    }
+  }
+
+  // --- Ligne de données ---
+  &__row {
+    border-top: 1px solid rgba(v.$color-border, 0.5);
+    transition: background-color v.$transition-fast;
+
+    &:hover {
+      background-color: rgba(v.$color-bg-hover, 0.3);
+    }
+  }
+
+  // --- Cellule de données ---
+  &__cell {
+    padding: v.$spacing-3 v.$spacing-4;
+    font-size: v.$font-size-sm;
+    color: v.$color-text-secondary;
+    white-space: nowrap;
+
+    // Variante : texte principal (mise en valeur)
+    &--title {
+      font-weight: v.$font-weight-medium;
+      color: v.$color-text-primary;
+    }
+
+    // Variante : prix (vert)
+    &--price {
+      font-weight: v.$font-weight-semibold;
+      color: v.$color-success;
+    }
+
+    // Variante : texte discret
+    &--muted {
+      color: v.$color-text-muted;
+    }
+
+    // Variante : centré
+    &--center {
+      text-align: center;
+    }
+
+    // Miniature image
+    &--thumb img {
+      width: 2.5rem;
+      height: 3.5rem;
+      object-fit: cover;
+      border-radius: v.$radius-sm;
+      box-shadow: v.$shadow-sm;
+    }
+  }
+}

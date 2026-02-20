@@ -1,0 +1,49 @@
+// ============================================================
+//  LAYOUT / LAYOUT
+//
+//  Grille principale de l'application.
+//  Gère le positionnement sidebar / zone principale.
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+
+// --- Conteneur principal ---
+// Grille CSS à 2 colonnes : sidebar fixe + contenu flexible
+.layout {
+  display: grid;
+  // La sidebar prend une largeur fixe, le reste de l'espace va au contenu
+  grid-template-columns: v.$sidebar-width 1fr;
+  min-height: 100vh;
+  // Transition fluide pour l'animation du toggle sidebar
+  transition: grid-template-columns v.$transition-slow;
+
+  // --- Modificateur : sidebar réduite ---
+  // Syntaxe BEM : .layout--collapsed
+  // Le &-- est la notation SASS pour imbriquer le modificateur
+  &--collapsed {
+    grid-template-columns: v.$sidebar-width-collapsed 1fr;
+  }
+
+  // --- Zone principale (header + main) ---
+  &__main {
+    @include mx.flex-column;
+    min-height: 100vh;
+    overflow: hidden; // évite le scroll horizontal
+  }
+}
+
+// --- Contenu scrollable ---
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: v.$spacing-6;
+
+  // Scrollbar personnalisée
+  @include mx.custom-scrollbar;
+
+  // Espacement entre les sections enfants
+  > * + * {
+    margin-top: v.$spacing-6;
+  }
+}

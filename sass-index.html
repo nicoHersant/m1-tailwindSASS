@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!--
+    Import via le module TypeScript.
+    Vite compile le SASS à la volée lors du développement
+    et génère un CSS optimisé lors du build.
+    Aucune balise <link rel="stylesheet"> avec Tailwind ici !
+  -->
+  <script type="module" src="/src/sass-main.ts"></script>
+  <title>MangaDash SASS — Accueil</title>
+</head>
+
+<!--
+  COMPARAISON TAILWIND vs SASS
+  ======================================================
+  Tailwind  : class="min-h-screen bg-gray-950 text-white"
+  SASS/BEM  : <body> (styles dans base/_reset.scss)
+  ======================================================
+  Avec SASS, les styles sont dans les fichiers .scss.
+  Le HTML est plus lisible, moins verbeux.
+-->
+<body>
+
+  <!--
+    .layout       → grille [sidebar | contenu] (layout/_layout.scss)
+    L'id est utilisé par le JavaScript pour le toggle.
+  -->
+  <div class="layout" id="layout">
+
+    <!-- ============================================================
+         .sidebar — barre de navigation (layout/_sidebar.scss)
+         Comparaison :
+         Tailwind : class="bg-slate-800 flex flex-col sticky top-0 h-screen"
+         SASS BEM : class="sidebar"
+         ============================================================ -->
+    <aside class="sidebar" id="aside">
+
+      <!-- .sidebar__logo → Element BEM (double underscore) -->
+      <div class="sidebar__logo">
+        <svg class="sidebar__logo-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <span class="sidebar__label menu-label">MangaDash</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <!--
+          .sidebar__link--active → Modifier BEM (double tiret)
+          Équivaut au .nav-link.nav-link-active de la version Tailwind,
+          mais ici c'est une vraie relation BEM : block__element--modifier
+        -->
+        <a href="./sass-index.html" class="sidebar__link sidebar__link--active">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span class="sidebar__label menu-label">Accueil</span>
+        </a>
+
+        <a href="./sass-table.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span class="sidebar__label menu-label">Catalogue</span>
+        </a>
+
+        <a href="./sass-stats.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <span class="sidebar__label menu-label">Statistiques</span>
+        </a>
+      </nav>
+
+      <footer class="sidebar__footer">
+        <span class="menu-label">© 2026 MangaDash</span>
+      </footer>
+    </aside>
+
+    <!-- Zone principale -->
+    <div class="layout__main">
+
+      <!-- .header (layout/_header.scss) -->
+      <header class="header">
+        <button class="header__toggle" id="toggle">☰</button>
+        <h1 class="header__title">Tableau de bord</h1>
+        <div class="header__actions">
+          <span class="header__badge" id="header-count">20 mangas</span>
+          <div class="header__avatar">N</div>
+        </div>
+      </header>
+
+      <!-- .main (layout/_layout.scss) -->
+      <main class="main">
+
+        <!-- Contrôles : titre, recherche, filtres (pages/_home.scss) -->
+        <section class="controls">
+          <div class="controls__header">
+            <div>
+              <h2 class="controls__title">Catalogue Manga</h2>
+              <p class="controls__subtitle">Explorez notre sélection de mangas</p>
+            </div>
+            <span class="controls__count" id="result-count"></span>
+          </div>
+
+          <!--
+            .search-input (components/_forms.scss)
+            Même fonctionnalité qu'avec Tailwind, style défini en SASS.
+          -->
+          <input
+            type="search"
+            id="search"
+            placeholder="🔍 Rechercher un titre, un auteur…"
+            class="search-input"
+          />
+
+          <!--
+            Boutons de filtre (components/_buttons.scss)
+            .filter-btn--active → Modifier BEM
+          -->
+          <div class="controls__filters" id="filters">
+            <button class="filter-btn filter-btn--active"   data-filter="all">Tous</button>
+            <button class="filter-btn"                      data-filter="shonen">Shōnen</button>
+            <button class="filter-btn"                      data-filter="shojo">Shōjo</button>
+            <button class="filter-btn"                      data-filter="seinen">Seinen</button>
+            <button class="filter-btn"                      data-filter="josei">Josei</button>
+          </div>
+        </section>
+
+        <!--
+          .cards-grid (pages/_home.scss)
+          Grille responsive définie entièrement en SASS avec le mixin responsive().
+        -->
+        <section class="cards-grid" id="cards-grid">
+          <div class="loading-state" id="loading">
+            <svg class="spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle style="opacity:.25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path style="opacity:.75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            Chargement des mangas…
+          </div>
+        </section>
+
+        <div class="empty-state" id="no-result" style="display:none">
+          <p class="empty-state__icon">📭</p>
+          <p class="empty-state__title">Aucun manga trouvé</p>
+          <p class="empty-state__desc">Essayez un autre terme ou catégorie.</p>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <script>
+    /* ---------------------------------------------------------------
+       TOGGLE SIDEBAR — bascule la classe BEM .layout--collapsed
+       Contrairement à la version Tailwind qui basculait deux classes
+       utilitaires (grid-cols-[256px_1fr] / grid-cols-[80px_1fr]),
+       ici on utilise un seul modificateur BEM sémantique.
+       --------------------------------------------------------------- */
+    const toggle = document.getElementById('toggle')
+    const layout = document.getElementById('layout')
+    const labels = document.querySelectorAll('.menu-label')
+
+    toggle.addEventListener('click', () => {
+      // Un seul toggle BEM au lieu de deux classes Tailwind
+      layout.classList.toggle('layout--collapsed')
+      // Masque/affiche les labels texte
+      labels.forEach(l => l.classList.toggle('is-hidden'))
+    })
+
+
+    /* ---------------------------------------------------------------
+       DONNÉES ET RENDU DES CARTES
+       --------------------------------------------------------------- */
+    const CATEGORY_LABELS = {
+      shonen: 'Shōnen',
+      shojo:  'Shōjo',
+      seinen: 'Seinen',
+      josei:  'Josei',
+    }
+
+    let allMangas    = []
+    let activeFilter = 'all'
+    let searchQuery  = ''
+
+    /**
+     * Génère le HTML BEM d'une carte manga.
+     * Les classes (.manga-card, .manga-card__cover, .badge--shonen…)
+     * sont définies dans src/sass/components/_cards.scss et _badges.scss.
+     */
+    function renderCard(manga) {
+      return `
+        <article class="manga-card">
+          <img class="manga-card__cover"
+               src="${manga.cover}"
+               alt="Couverture de ${manga.title}"
+               loading="lazy" />
+          <div class="manga-card__body">
+            <div class="manga-card__head">
+              <h2 class="manga-card__title">${manga.title}</h2>
+              <span class="badge badge--${manga.category}">${CATEGORY_LABELS[manga.category]}</span>
+            </div>
+            <p class="manga-card__author">✍ ${manga.author}</p>
+            <p class="manga-card__desc">${manga.description}</p>
+            <div class="manga-card__footer">
+              <div class="manga-card__meta">
+                <span class="star">★</span>
+                <span>${manga.rating}</span>
+                <span>· ${manga.volumes} vol.</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:.75rem">
+                <span class="manga-card__year">${manga.year}</span>
+                <span class="manga-card__price">${manga.price.toFixed(2)} €</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      `
+    }
+
+    function renderGrid(mangas) {
+      const grid     = document.getElementById('cards-grid')
+      const noResult = document.getElementById('no-result')
+      const count    = document.getElementById('header-count')
+      const rCount   = document.getElementById('result-count')
+      const label    = `${mangas.length} manga${mangas.length > 1 ? 's' : ''}`
+
+      if (count)  count.textContent  = label
+      if (rCount) rCount.textContent = `${mangas.length} résultat${mangas.length > 1 ? 's' : ''}`
+
+      if (mangas.length === 0) {
+        grid.innerHTML = ''
+        noResult.style.display = 'block'
+      } else {
+        noResult.style.display = 'none'
+        grid.innerHTML = mangas.map(renderCard).join('')
+      }
+    }
+
+    function applyFilters() {
+      let result = allMangas
+      if (activeFilter !== 'all') result = result.filter(m => m.category === activeFilter)
+      if (searchQuery.trim())     result = result.filter(m =>
+        m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.author.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+      renderGrid(result)
+    }
+
+    fetch('/mangas.json')
+      .then(r => r.json())
+      .then(data => {
+        allMangas = data
+        document.getElementById('loading').remove()
+        renderGrid(allMangas)
+      })
+
+    document.getElementById('filters').addEventListener('click', e => {
+      const btn = e.target.closest('[data-filter]')
+      if (!btn) return
+      activeFilter = btn.dataset.filter
+      document.querySelectorAll('[data-filter]').forEach(b => {
+        b.classList.toggle('filter-btn--active', b === btn)
+      })
+      applyFilters()
+    })
+
+    let timer
+    document.getElementById('search').addEventListener('input', e => {
+      clearTimeout(timer)
+      timer = setTimeout(() => { searchQuery = e.target.value; applyFilters() }, 200)
+    })
+  </script>
+</body>
+</html>

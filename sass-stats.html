@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="module" src="/src/sass-main.ts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <title>MangaDash SASS — Statistiques</title>
+</head>
+
+<body>
+  <div class="layout" id="layout">
+
+    <aside class="sidebar" id="aside">
+      <div class="sidebar__logo">
+        <svg class="sidebar__logo-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <span class="sidebar__label menu-label">MangaDash</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="./sass-index.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span class="sidebar__label menu-label">Accueil</span>
+        </a>
+
+        <a href="./sass-table.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span class="sidebar__label menu-label">Catalogue</span>
+        </a>
+
+        <a href="./sass-stats.html" class="sidebar__link sidebar__link--active">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <span class="sidebar__label menu-label">Statistiques</span>
+        </a>
+      </nav>
+
+      <footer class="sidebar__footer">
+        <span class="menu-label">© 2026 MangaDash</span>
+      </footer>
+    </aside>
+
+    <div class="layout__main">
+
+      <header class="header">
+        <button class="header__toggle" id="toggle">☰</button>
+        <h1 class="header__title">Statistiques</h1>
+        <div class="header__actions">
+          <!--
+            Badge violet pour varier — noter que le style inline est
+            acceptable pour un cas ponctuel non répété.
+            Pour un usage récurrent, on créerait .header__badge--purple en SASS.
+          -->
+          <span class="header__badge" style="--badge-color:#8b5cf6;background:rgba(139,92,246,.2);color:#c4b5fd;border-color:rgba(139,92,246,.3)">
+            Analyse
+          </span>
+        </div>
+      </header>
+
+      <main class="main">
+
+        <!-- En-tête de section (pages/_stats.scss) -->
+        <div class="stats-header">
+          <h2 class="stats-header__title">Vue d'ensemble</h2>
+          <p class="stats-header__subtitle">Analyse de notre catalogue de 20 mangas</p>
+        </div>
+
+        <!-- ============================================================
+             Grille KPI (components/_stat-cards.scss)
+             .kpi-grid → grid responsive défini avec le mixin @include responsive()
+             .kpi-card--blue, --green, --purple, --orange → modificateurs @each
+             ============================================================ -->
+        <section class="kpi-grid">
+
+          <div class="kpi-card kpi-card--blue">
+            <div class="kpi-card__icon">📚</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-total">—</p>
+              <p class="kpi-card__label">Total de mangas</p>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--green">
+            <div class="kpi-card__icon">💰</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-avg-price">—</p>
+              <p class="kpi-card__label">Prix moyen par tome</p>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--purple">
+            <div class="kpi-card__icon">🏆</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-top-cat">—</p>
+              <p class="kpi-card__label">Catégorie dominante</p>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--orange">
+            <div class="kpi-card__icon">📖</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-total-vols">—</p>
+              <p class="kpi-card__label">Volumes au total</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Grille des graphiques (components/_stat-cards.scss) -->
+        <section class="charts-grid">
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Mangas par catégorie</h3>
+              <p class="chart-card__subtitle">Nombre de titres dans chaque genre</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Répartition par prix</h3>
+              <p class="chart-card__subtitle">Distribution par tranche de prix</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="priceChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Note moyenne par catégorie</h3>
+              <p class="chart-card__subtitle">Score moyen sur 5</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="ratingChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Publications par décennie</h3>
+              <p class="chart-card__subtitle">Séries lancées par époque</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="decadeChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tableau récapitulatif (pages/_stats.scss + components/_table.scss) -->
+        <section class="stats-table-section">
+          <div class="stats-table-section__header">
+            <h3 class="stats-table-section__title">Détail par catégorie</h3>
+            <p class="stats-table-section__subtitle">Statistiques complètes pour chaque genre</p>
+          </div>
+
+          <div class="data-table-wrapper" style="margin-top:1rem">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="data-table__th">Catégorie</th>
+                  <th class="data-table__th data-table__th--center">Titres</th>
+                  <th class="data-table__th" style="text-align:right">Prix moy.</th>
+                  <th class="data-table__th" style="text-align:right">Note moy.</th>
+                  <th class="data-table__th" style="text-align:right">Volumes</th>
+                  <th class="data-table__th">Part du catalogue</th>
+                </tr>
+              </thead>
+              <tbody id="stats-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+
+  <script>
+    /* TOGGLE SIDEBAR */
+    const toggle = document.getElementById('toggle')
+    const layout = document.getElementById('layout')
+    const labels = document.querySelectorAll('.menu-label')
+    toggle.addEventListener('click', () => {
+      layout.classList.toggle('layout--collapsed')
+      labels.forEach(l => l.classList.toggle('is-hidden'))
+    })
+
+    /* Chart.js config globale */
+    Chart.defaults.color       = '#94a3b8'
+    Chart.defaults.borderColor = '#1e293b'
+
+    const CAT_FR = { shonen:'Shōnen', shojo:'Shōjo', seinen:'Seinen', josei:'Josei' }
+    const CAT_COLORS = {
+      shonen: '#3b82f6', shojo: '#ec4899', seinen: '#8b5cf6', josei: '#f97316'
+    }
+    const CATEGORIES = ['shonen','shojo','seinen','josei']
+
+    fetch('/mangas.json')
+      .then(r => r.json())
+      .then(mangas => {
+
+        /* KPI */
+        document.getElementById('kpi-total').textContent = mangas.length
+        const avgPrice = mangas.reduce((s,m) => s + m.price, 0) / mangas.length
+        document.getElementById('kpi-avg-price').textContent = avgPrice.toFixed(2) + ' €'
+        document.getElementById('kpi-total-vols').textContent = mangas.reduce((s,m) => s + m.volumes, 0)
+
+        const catCount = {}
+        mangas.forEach(m => { catCount[m.category] = (catCount[m.category]||0)+1 })
+        const top = Object.entries(catCount).sort((a,b) => b[1]-a[1])[0]
+        document.getElementById('kpi-top-cat').textContent = CAT_FR[top[0]]
+
+        /* Graphique 1 : Histogramme par catégorie */
+        new Chart(document.getElementById('categoryChart'), {
+          type: 'bar',
+          data: {
+            labels: CATEGORIES.map(c => CAT_FR[c]),
+            datasets: [{
+              data: CATEGORIES.map(c => catCount[c]||0),
+              backgroundColor: CATEGORIES.map(c => `${CAT_COLORS[c]}b3`),
+              borderColor:     CATEGORIES.map(c => CAT_COLORS[c]),
+              borderWidth: 1, borderRadius: 6, borderSkipped: false,
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero:true, ticks:{stepSize:2,color:'#94a3b8'}, grid:{color:'rgba(30,41,59,.8)'} },
+              x: { ticks:{color:'#cbd5e1'}, grid:{display:false} }
+            }
+          }
+        })
+
+        /* Graphique 2 : Donut prix */
+        const priceR = {'Moins de 7 €':0,'7 € à 8 €':0,'Plus de 8 €':0}
+        mangas.forEach(m => {
+          if      (m.price < 7)  priceR['Moins de 7 €']++
+          else if (m.price <= 8) priceR['7 € à 8 €']++
+          else                   priceR['Plus de 8 €']++
+        })
+        new Chart(document.getElementById('priceChart'), {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(priceR),
+            datasets: [{
+              data: Object.values(priceR),
+              backgroundColor: ['rgba(59,130,246,.8)','rgba(16,185,129,.8)','rgba(245,158,11,.8)'],
+              borderColor: '#1e293b', borderWidth: 3, hoverOffset: 8,
+            }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position:'bottom', labels:{color:'#94a3b8',padding:16,usePointStyle:true} } }
+          }
+        })
+
+        /* Graphique 3 : Barres horizontales — note moyenne */
+        const catRatings = {}, catCounts2 = {}
+        mangas.forEach(m => {
+          catRatings[m.category] = (catRatings[m.category]||0) + m.rating
+          catCounts2[m.category] = (catCounts2[m.category]||0) + 1
+        })
+        new Chart(document.getElementById('ratingChart'), {
+          type: 'bar',
+          data: {
+            labels: CATEGORIES.map(c => CAT_FR[c]),
+            datasets: [{
+              data: CATEGORIES.map(c => catCounts2[c] ? (catRatings[c]/catCounts2[c]).toFixed(2) : 0),
+              backgroundColor: 'rgba(139,92,246,.7)', borderColor:'rgb(139,92,246)',
+              borderWidth: 1, borderRadius: 6,
+            }]
+          },
+          options: {
+            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display:false } },
+            scales: {
+              x: { min:4, max:5, ticks:{color:'#94a3b8',stepSize:.2}, grid:{color:'rgba(30,41,59,.8)'} },
+              y: { ticks:{color:'#cbd5e1'}, grid:{display:false} }
+            }
+          }
+        })
+
+        /* Graphique 4 : Line par décennie */
+        const decades = {}
+        mangas.forEach(m => { const d = Math.floor(m.year/10)*10; decades[d]=(decades[d]||0)+1 })
+        const sortedD = Object.keys(decades).sort().map(Number)
+        new Chart(document.getElementById('decadeChart'), {
+          type: 'line',
+          data: {
+            labels: sortedD.map(d => `${d}s`),
+            datasets: [{
+              data: sortedD.map(d => decades[d]),
+              borderColor:'rgb(59,130,246)', backgroundColor:'rgba(59,130,246,.1)',
+              tension:.4, fill:true,
+              pointBackgroundColor:'rgb(59,130,246)', pointBorderColor:'#0f172a', pointBorderWidth:2, pointRadius:5,
+            }]
+          },
+          options: {
+            responsive:true, maintainAspectRatio:false,
+            plugins:{legend:{display:false}},
+            scales:{
+              y:{beginAtZero:true,ticks:{stepSize:1,color:'#94a3b8'},grid:{color:'rgba(30,41,59,.8)'}},
+              x:{ticks:{color:'#cbd5e1'},grid:{display:false}}
+            }
+          }
+        })
+
+        /* Tableau récapitulatif */
+        const CAT_BG = { shonen:'#3b82f6', shojo:'#ec4899', seinen:'#8b5cf6', josei:'#f97316' }
+        document.getElementById('stats-table-body').innerHTML = CATEGORIES.map(cat => {
+          const items = mangas.filter(m => m.category === cat)
+          const count = items.length
+          const avgP  = count ? (items.reduce((s,m) => s+m.price,0)/count).toFixed(2) : '—'
+          const avgR  = count ? (items.reduce((s,m) => s+m.rating,0)/count).toFixed(1) : '—'
+          const totalV = items.reduce((s,m) => s+m.volumes, 0)
+          const pct   = Math.round((count/mangas.length)*100)
+          return `
+            <tr class="data-table__row">
+              <td class="data-table__cell">
+                <span class="badge badge--${cat}">${CAT_FR[cat]}</span>
+              </td>
+              <td class="data-table__cell" style="text-align:center;font-weight:700;color:#f1f5f9">${count}</td>
+              <td class="data-table__cell" style="text-align:right;color:#10b981;font-weight:600">${avgP} €</td>
+              <td class="data-table__cell" style="text-align:right">
+                <span style="color:#f59e0b">★</span> ${avgR}
+              </td>
+              <td class="data-table__cell" style="text-align:right;color:#94a3b8">${totalV}</td>
+              <td class="data-table__cell">
+                <div class="progress-bar">
+                  <div class="progress-bar__track">
+                    <div class="progress-bar__fill progress-bar__fill--${cat}" style="width:${pct}%"></div>
+                  </div>
+                  <span class="progress-bar__label">${pct}%</span>
+                </div>
+              </td>
+            </tr>`
+        }).join('')
+      })
+  </script>
+</body>
+</html>

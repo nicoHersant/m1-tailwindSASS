@@ -1,0 +1,37 @@
+// ============================================================
+//  COMPONENTS / FORMS
+//
+//  Champs de formulaire : input de recherche.
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+
+.search-input {
+  width: 100%;
+  background-color: v.$color-bg-card;
+  border: 1px solid v.$color-border;
+  border-radius: v.$radius-lg;
+  padding: v.$spacing-2 v.$spacing-4;
+  font-size: v.$font-size-sm;
+  color: v.$color-text-secondary;
+  transition: border-color v.$transition-base, box-shadow v.$transition-base;
+
+  // Style du placeholder
+  &::placeholder {
+    color: v.$color-text-faint;
+  }
+
+  // État focus : anneau bleu + bordure bleue
+  &:focus {
+    outline: none;
+    border-color: v.$color-accent;
+    // box-shadow pour simuler l'anneau de focus
+    box-shadow: 0 0 0 3px rgba(v.$color-accent, 0.25);
+  }
+
+  // Largeur maximale (pour ne pas prendre tout l'espace)
+  &--constrained {
+    max-width: 24rem;
+  }
+}

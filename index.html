@@ -1,85 +1,411 @@
- <!doctype html>
-<html lang="en">
+<!doctype html>
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Import du CSS compilé par Vite + Tailwind -->
   <link href="/src/style.css" rel="stylesheet" />
-  <title>Dashboard</title>
+  <title>MangaDash — Accueil</title>
 </head>
 
+<!--
+  bg-gray-950  → fond très sombre (quasi noir) pour tout le body
+  text-white   → couleur de texte blanche par défaut (héritée)
+  min-h-screen → hauteur minimale = hauteur de l'écran
+-->
 <body class="min-h-screen bg-gray-950 text-white">
 
-  <!-- Layout global -->
+  <!--
+    LAYOUT PRINCIPAL — grille 2 colonnes : [sidebar | contenu]
+    =====================================================================
+    grid                       → active CSS Grid
+    grid-cols-[256px_1fr]      → colonne fixe 256px + colonne flexible
+    min-h-screen               → s'étire sur toute la hauteur
+    transition-all duration-300 → anime les changements (toggle sidebar)
+    =====================================================================
+  -->
   <div id="layout" class="grid min-h-screen grid-cols-[256px_1fr] transition-all duration-300">
 
-    <!-- Aside -->
-    <aside id="aside" class="bg-slate-800 flex flex-col">
-      <div class="h-16 flex items-center justify-center font-bold border-b border-slate-700">
-        Menu
+    <!-- ==============================================================
+         ASIDE — barre de navigation latérale
+         flex flex-col → empilement vertical : logo / nav / footer
+         ============================================================== -->
+    <aside id="aside" class="bg-slate-800 flex flex-col sticky top-0 h-screen overflow-y-auto">
+
+      <!-- Logo / Titre du dashboard -->
+      <!--
+        h-16           → hauteur fixe 64px (même que le header)
+        border-b       → ligne séparatrice en bas
+        border-slate-700 → couleur de la bordure
+        gap-2          → espace entre l'icône et le texte
+      -->
+      <div class="h-16 flex items-center justify-center gap-2 font-bold border-b border-slate-700 px-4 overflow-hidden">
+        <!-- Icône manga (SVG inline) — visible même en mode réduit -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 flex-shrink-0 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <!-- Le label disparaît quand la sidebar est réduite -->
+        <span class="menu-label text-slate-100 tracking-wide">MangaDash</span>
       </div>
 
-      <nav class="flex-1 p-4 space-y-2 text-sm">
-        <a class="flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-700">
+      <!-- Navigation principale -->
+      <!--
+        flex-1  → prend tout l'espace vertical disponible
+        p-3     → padding intérieur
+        space-y-1 → espace de 4px entre chaque lien
+      -->
+      <nav class="flex-1 p-3 space-y-1 text-sm">
+
+        <!-- Lien actif : Accueil (utilise les classes .nav-link et .nav-link-active via @apply) -->
+        <a href="./index.html" class="nav-link nav-link-active">
+          <!-- Icône maison (héroïcons) -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
           <span class="menu-label">Accueil</span>
         </a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-700">
-          <span class="menu-label">Utilisateurs</span>
+
+        <!-- Lien : Catalogue (tableau) -->
+        <a href="./table.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span class="menu-label">Catalogue</span>
         </a>
-        <a class="flex items-center gap-3 px-3 py-2 rounded hover:bg-slate-700">
+
+        <!-- Lien : Statistiques -->
+        <a href="./stats.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
           <span class="menu-label">Statistiques</span>
         </a>
       </nav>
 
+      <!-- Pied de la sidebar -->
+      <!--
+        text-xs        → très petite police
+        text-slate-400 → gris clair discret
+        border-t       → séparateur supérieur
+      -->
       <footer class="p-3 text-xs text-center text-slate-400 border-t border-slate-700">
-        © 2026
+        <span class="menu-label">© 2026 MangaDash</span>
+        <span class="hidden-when-expanded menu-label-hidden text-lg">◆</span>
       </footer>
     </aside>
 
-    <!-- Zone principale -->
+    <!-- ==============================================================
+         ZONE PRINCIPALE — header + contenu scrollable
+         ============================================================== -->
     <div class="flex flex-col min-h-screen">
 
-      <!-- Header -->
-      <header class="h-16 bg-slate-800 border-b border-slate-700 flex items-center px-6 justify-between">
-        <button id="toggle" class="text-white">☰</button>
-        <h1 class="text-lg font-semibold">Tableau de bord</h1>
+      <!-- ============================================================
+           HEADER — barre du haut
+           h-16         → hauteur 64px identique à la sidebar
+           sticky top-0 → reste en haut lors du scroll
+           z-10         → reste au-dessus du contenu
+           ============================================================ -->
+      <header class="h-16 bg-slate-800 border-b border-slate-700 flex items-center px-6 justify-between sticky top-0 z-10">
+
+        <!-- Bouton toggle sidebar -->
+        <!--
+          text-xl      → taille de l'icône hamburger
+          hover:text-blue-400 → changement de couleur au survol
+          transition-colors → animation fluide
+        -->
+        <button id="toggle" class="text-slate-300 hover:text-blue-400 transition-colors text-xl leading-none">☰</button>
+
+        <!-- Titre de la page -->
+        <h1 class="text-lg font-semibold tracking-wide">Tableau de bord</h1>
+
+        <!-- Actions header : recherche rapide + avatar -->
+        <div class="flex items-center gap-3">
+          <!-- Badge compteur -->
+          <span id="header-count" class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-medium border border-blue-500/30">
+            20 mangas
+          </span>
+          <!-- Avatar utilisateur fictif -->
+          <!--
+            w-8 h-8       → taille fixe 32×32px
+            rounded-full  → cercle parfait
+            bg-gradient-to-br → dégradé de couleur
+            text-xs font-bold → initiales en petit texte gras
+          -->
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-xs font-bold">
+            N
+          </div>
+        </div>
       </header>
 
-      <!-- Main scrollable -->
-      <main class="flex-1 overflow-y-auto p-6">
+      <!-- ============================================================
+           MAIN — zone de contenu principale et scrollable
+           flex-1        → prend tout l'espace vertical restant
+           overflow-y-auto → scroll vertical si contenu trop long
+           p-6           → padding 24px tout autour
+           ============================================================ -->
+      <main class="flex-1 overflow-y-auto p-6 space-y-6">
 
-        <!-- Grille de cartes -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-slate-600 rounded shadow p-4">Carte 1</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 2</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 3</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 4</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 5</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 6</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 7</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 8</div>
-          <div class="bg-slate-600 rounded shadow p-4">Carte 9</div>
+        <!-- Titre de section + barre de recherche + filtres -->
+        <section class="space-y-4">
+
+          <!-- En-tête : titre + compteur de résultats -->
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h2 class="text-xl font-bold text-white">Catalogue Manga</h2>
+              <!-- text-slate-400 → texte secondaire discret -->
+              <p class="text-sm text-slate-400 mt-0.5">Explorez notre sélection de mangas</p>
+            </div>
+            <!-- Compteur mis à jour dynamiquement par le JS -->
+            <span id="result-count" class="text-sm text-slate-400"></span>
+          </div>
+
+          <!-- Input de recherche (utilise la classe .search-input via @apply) -->
+          <input
+            type="search"
+            id="search"
+            placeholder="🔍 Rechercher un titre, un auteur…"
+            class="search-input"
+          />
+
+          <!-- Filtres par catégorie -->
+          <!--
+            flex flex-wrap gap-2 → boutons sur une ou plusieurs lignes selon l'espace
+          -->
+          <div class="flex flex-wrap gap-2" id="filters">
+            <!-- data-filter est lu par le JS pour filtrer les cartes -->
+            <button class="filter-btn filter-btn-active"   data-filter="all">Tous</button>
+            <button class="filter-btn filter-btn-inactive" data-filter="shonen">Shōnen</button>
+            <button class="filter-btn filter-btn-inactive" data-filter="shojo">Shōjo</button>
+            <button class="filter-btn filter-btn-inactive" data-filter="seinen">Seinen</button>
+            <button class="filter-btn filter-btn-inactive" data-filter="josei">Josei</button>
+          </div>
         </section>
+
+        <!-- ============================================================
+             GRILLE DE CARTES
+             grid                     → CSS Grid
+             grid-cols-1              → 1 colonne sur mobile
+             sm:grid-cols-2           → 2 colonnes dès 640px (breakpoint sm)
+             lg:grid-cols-3           → 3 colonnes dès 1024px (breakpoint lg)
+             xl:grid-cols-4           → 4 colonnes dès 1280px (breakpoint xl)
+             gap-6                    → espacement de 24px entre les cartes
+             ============================================================ -->
+        <section id="cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Les cartes sont injectées dynamiquement par le JavaScript ci-dessous -->
+          <!-- État de chargement affiché en attendant la réponse du fetch -->
+          <div id="loading" class="col-span-full flex items-center justify-center py-16 text-slate-400 gap-3">
+            <svg class="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            Chargement des mangas…
+          </div>
+        </section>
+
+        <!-- Message "aucun résultat" (caché par défaut) -->
+        <div id="no-result" class="hidden text-center py-12 text-slate-400 space-y-2">
+          <p class="text-4xl">📭</p>
+          <p class="font-medium">Aucun manga trouvé</p>
+          <p class="text-sm">Essayez un autre terme de recherche ou catégorie.</p>
+        </div>
 
       </main>
     </div>
-  </div>
+  </div><!-- fin #layout -->
 
-  <!-- JS minimal -->
+
+  <!-- ==============================================================
+       JAVASCRIPT — Sidebar toggle + Chargement et affichage des mangas
+       ============================================================== -->
   <script>
-    const toggle = document.getElementById('toggle')
-    const layout = document.getElementById('layout')
-    const aside = document.getElementById('aside')
-    const labels = document.querySelectorAll('.menu-label')
-
-    let collapsed = false
+    /* ---------------------------------------------------------------
+       1. TOGGLE SIDEBAR
+       On bascule les classes Tailwind sur le layout pour réduire
+       la sidebar de 256px à 80px, et on masque les labels texte.
+       --------------------------------------------------------------- */
+    const toggle   = document.getElementById('toggle')
+    const layout   = document.getElementById('layout')
+    const labels   = document.querySelectorAll('.menu-label')
+    let   collapsed = false
 
     toggle.addEventListener('click', () => {
       collapsed = !collapsed
 
+      // Bascule la largeur de la sidebar via les classes Tailwind
       layout.classList.toggle('grid-cols-[256px_1fr]')
       layout.classList.toggle('grid-cols-[80px_1fr]')
 
+      // Masque/affiche les textes de navigation
       labels.forEach(label => label.classList.toggle('hidden'))
+    })
+
+
+    /* ---------------------------------------------------------------
+       2. DONNÉES ET RENDU DES CARTES
+       --------------------------------------------------------------- */
+
+    // Mapping catégorie → label FR lisible
+    const CATEGORY_LABELS = {
+      shonen: 'Shōnen',
+      shojo:  'Shōjo',
+      seinen: 'Seinen',
+      josei:  'Josei',
+    }
+
+    let allMangas    = []   // toutes les données brutes
+    let activeFilter = 'all'  // filtre catégorie actif
+    let searchQuery  = ''     // terme de recherche en cours
+
+    /**
+     * Génère le HTML d'une carte manga.
+     * Utilise les classes composants (.manga-card, .badge-*, etc.)
+     * définies avec @apply dans style.css.
+     */
+    function renderCard(manga) {
+      const stars = '★'.repeat(Math.round(manga.rating)) + '☆'.repeat(5 - Math.round(manga.rating))
+      return `
+        <article class="manga-card">
+          <!-- Image : object-cover évite la déformation (cf. style.css .manga-card-cover) -->
+          <img
+            src="${manga.cover}"
+            alt="Couverture de ${manga.title}"
+            class="manga-card-cover"
+            loading="lazy"
+          />
+
+          <div class="manga-card-body">
+            <!-- En-tête de la carte : titre + badge catégorie -->
+            <div class="flex items-start justify-between gap-2">
+              <h2 class="manga-card-title">${manga.title}</h2>
+              <!--
+                badge-${manga.category} → classe dynamique selon la catégorie
+                ex: badge-shonen applique bg-blue-500/20 text-blue-400...
+              -->
+              <span class="badge badge-${manga.category}">${CATEGORY_LABELS[manga.category]}</span>
+            </div>
+
+            <!-- Auteur -->
+            <p class="manga-card-author">✍ ${manga.author}</p>
+
+            <!-- Description (tronquée à 3 lignes via line-clamp-3) -->
+            <p class="manga-card-desc">${manga.description}</p>
+
+            <!-- Footer : note + volumes | année + prix -->
+            <div class="manga-card-footer">
+              <!-- Côté gauche : étoiles + nombre de volumes -->
+              <div class="flex items-center gap-1 min-w-0">
+                <span class="text-yellow-400 text-xs" title="Note ${manga.rating}/5">★</span>
+                <span class="text-slate-300 text-xs font-medium">${manga.rating}</span>
+                <!--
+                  hidden sm:inline → masqué sur mobile, visible à partir de sm (640px)
+                  Exemple de classe responsive Tailwind
+                -->
+                <span class="text-slate-500 text-xs hidden sm:inline">· ${manga.volumes} vol.</span>
+              </div>
+
+              <!-- Côté droit : année + prix -->
+              <div class="flex items-center gap-3">
+                <span class="manga-year">${manga.year}</span>
+                <span class="manga-price">${manga.price.toFixed(2)} €</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      `
+    }
+
+    /** Filtre les mangas selon la catégorie active et la recherche, puis injecte le HTML */
+    function renderGrid(mangas) {
+      const grid    = document.getElementById('cards-grid')
+      const noResult = document.getElementById('no-result')
+      const headerCount = document.getElementById('header-count')
+      const resultCount = document.getElementById('result-count')
+
+      if (mangas.length === 0) {
+        grid.innerHTML = ''
+        noResult.classList.remove('hidden')
+      } else {
+        noResult.classList.add('hidden')
+        grid.innerHTML = mangas.map(renderCard).join('')
+      }
+
+      // Mise à jour des compteurs
+      const label = `${mangas.length} manga${mangas.length > 1 ? 's' : ''}`
+      if (headerCount) headerCount.textContent = label
+      if (resultCount) resultCount.textContent = `${mangas.length} résultat${mangas.length > 1 ? 's' : ''}`
+    }
+
+    /** Applique les filtres et la recherche puis re-render */
+    function applyFilters() {
+      let result = allMangas
+
+      // Filtre par catégorie
+      if (activeFilter !== 'all') {
+        result = result.filter(m => m.category === activeFilter)
+      }
+
+      // Filtre par recherche textuelle (titre ou auteur)
+      if (searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase()
+        result = result.filter(m =>
+          m.title.toLowerCase().includes(q) ||
+          m.author.toLowerCase().includes(q)
+        )
+      }
+
+      renderGrid(result)
+    }
+
+    /* ---------------------------------------------------------------
+       3. CHARGEMENT DES DONNÉES depuis /public/mangas.json
+       fetch() est l'API native pour faire des requêtes HTTP async
+       --------------------------------------------------------------- */
+    fetch('/mangas.json')
+      .then(res => res.json())
+      .then(data => {
+        allMangas = data
+
+        // Supprime l'état de chargement
+        document.getElementById('loading').remove()
+
+        // Premier rendu : affiche tout
+        renderGrid(allMangas)
+      })
+      .catch(err => {
+        console.error('Erreur de chargement du JSON :', err)
+        document.getElementById('loading').textContent = '⚠️ Impossible de charger les mangas.'
+      })
+
+    /* ---------------------------------------------------------------
+       4. ÉVÉNEMENTS — filtre catégorie + recherche
+       --------------------------------------------------------------- */
+
+    // Clics sur les boutons de filtre
+    document.getElementById('filters').addEventListener('click', e => {
+      const btn = e.target.closest('[data-filter]')
+      if (!btn) return
+
+      // Met à jour l'état actif
+      activeFilter = btn.dataset.filter
+
+      // Bascule les classes active/inactive sur chaque bouton
+      document.querySelectorAll('[data-filter]').forEach(b => {
+        b.classList.toggle('filter-btn-active',   b === btn)
+        b.classList.toggle('filter-btn-inactive', b !== btn)
+      })
+
+      applyFilters()
+    })
+
+    // Saisie dans la barre de recherche (avec debounce de 200ms)
+    let debounceTimer
+    document.getElementById('search').addEventListener('input', e => {
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        searchQuery = e.target.value
+        applyFilters()
+      }, 200)
     })
   </script>
 </body>

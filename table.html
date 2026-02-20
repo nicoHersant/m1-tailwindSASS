@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/src/style.css" rel="stylesheet" />
+  <title>MangaDash — Catalogue</title>
+</head>
+
+<body class="min-h-screen bg-gray-950 text-white">
+
+  <!-- Layout identique à l'accueil : grid [sidebar | contenu] -->
+  <div id="layout" class="grid min-h-screen grid-cols-[256px_1fr] transition-all duration-300">
+
+    <!-- ============================================================
+         ASIDE — même structure que l'accueil
+         ============================================================ -->
+    <aside id="aside" class="bg-slate-800 flex flex-col sticky top-0 h-screen overflow-y-auto">
+
+      <div class="h-16 flex items-center justify-center gap-2 font-bold border-b border-slate-700 px-4 overflow-hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 flex-shrink-0 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <span class="menu-label text-slate-100 tracking-wide">MangaDash</span>
+      </div>
+
+      <nav class="flex-1 p-3 space-y-1 text-sm">
+        <a href="./index.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span class="menu-label">Accueil</span>
+        </a>
+
+        <!-- nav-link-active → page active (Catalogue) -->
+        <a href="./table.html" class="nav-link nav-link-active">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span class="menu-label">Catalogue</span>
+        </a>
+
+        <a href="./stats.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <span class="menu-label">Statistiques</span>
+        </a>
+      </nav>
+
+      <footer class="p-3 text-xs text-center text-slate-400 border-t border-slate-700">
+        <span class="menu-label">© 2026 MangaDash</span>
+      </footer>
+    </aside>
+
+    <!-- Zone principale -->
+    <div class="flex flex-col min-h-screen">
+
+      <!-- Header -->
+      <header class="h-16 bg-slate-800 border-b border-slate-700 flex items-center px-6 justify-between sticky top-0 z-10">
+        <button id="toggle" class="text-slate-300 hover:text-blue-400 transition-colors text-xl leading-none">☰</button>
+        <h1 class="text-lg font-semibold tracking-wide">Catalogue</h1>
+        <!-- Compteur de résultats dans le header -->
+        <span id="header-count" class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-medium border border-blue-500/30">
+          20 mangas
+        </span>
+      </header>
+
+      <!-- ============================================================
+           MAIN — tableau de données
+           ============================================================ -->
+      <main class="flex-1 overflow-y-auto p-6 space-y-5">
+
+        <!-- En-tête de section + contrôles -->
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-white">Tous les mangas</h2>
+            <p class="text-sm text-slate-400 mt-0.5">
+              <span id="count-label">20</span> entrées dans la base
+            </p>
+          </div>
+
+          <!-- Barre de recherche + export fictif -->
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <!--
+              max-w-xs  → largeur max pour ne pas prendre tout l'espace
+            -->
+            <input
+              type="search"
+              id="search"
+              placeholder="🔍 Rechercher…"
+              class="search-input max-w-xs"
+            />
+            <!--
+              Bouton .btn-ghost : action secondaire (style défini via @apply)
+              hidden sm:flex → masqué sur mobile pour économiser l'espace
+            -->
+            <button class="btn btn-ghost hidden sm:flex flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 010 2H4a1 1 0 01-1-1zm0 8a1 1 0 011-1h16a1 1 0 010 2H4a1 1 0 01-1-1zm0 8a1 1 0 011-1h16a1 1 0 010 2H4a1 1 0 01-1-1z" />
+              </svg>
+              Filtres
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtres par catégorie (même structure que l'accueil) -->
+        <div class="flex flex-wrap gap-2" id="filters">
+          <button class="filter-btn filter-btn-active"   data-filter="all">Tous</button>
+          <button class="filter-btn filter-btn-inactive" data-filter="shonen">Shōnen</button>
+          <button class="filter-btn filter-btn-inactive" data-filter="shojo">Shōjo</button>
+          <button class="filter-btn filter-btn-inactive" data-filter="seinen">Seinen</button>
+          <button class="filter-btn filter-btn-inactive" data-filter="josei">Josei</button>
+        </div>
+
+        <!-- ============================================================
+             TABLEAU
+             overflow-hidden   → clip les coins arrondis sur le contenu
+             rounded-xl        → coins arrondis du conteneur
+             shadow-lg         → ombre portée
+             ============================================================ -->
+        <div class="bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-slate-700/50">
+          <!--
+            overflow-x-auto → scroll horizontal sur petits écrans
+            C'est la technique standard pour les tableaux responsifs
+          -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full">
+              <!-- En-tête du tableau -->
+              <thead>
+                <tr>
+                  <!--
+                    Les classes .th sont définies avec @apply dans style.css
+                    data-col est utilisé par le JS pour le tri
+                  -->
+                  <th class="th w-12">#</th>
+                  <th class="th">
+                    <span class="hidden sm:inline">Couverture</span>
+                    <span class="sm:hidden">Img</span>
+                  </th>
+                  <th class="th" data-col="title">
+                    Titre
+                    <span class="sort-icon ml-1 opacity-40">↕</span>
+                  </th>
+                  <th class="th hidden md:table-cell" data-col="author">
+                    Auteur
+                    <span class="sort-icon ml-1 opacity-40">↕</span>
+                  </th>
+                  <th class="th hidden sm:table-cell">Catégorie</th>
+                  <th class="th hidden lg:table-cell" data-col="year">
+                    Année
+                    <span class="sort-icon ml-1 opacity-40">↕</span>
+                  </th>
+                  <th class="th hidden xl:table-cell" data-col="volumes">
+                    Volumes
+                    <span class="sort-icon ml-1 opacity-40">↕</span>
+                  </th>
+                  <th class="th" data-col="price">
+                    Prix
+                    <span class="sort-icon ml-1 opacity-40">↕</span>
+                  </th>
+                  <th class="th hidden lg:table-cell" data-col="rating">
+                    Note
+                    <span class="sort-icon ml-1 opacity-40">↕</span>
+                  </th>
+                </tr>
+              </thead>
+
+              <!-- Corps du tableau : injecté par le JS -->
+              <tbody id="table-body">
+                <tr>
+                  <td colspan="9" class="td text-center py-10 text-slate-400">
+                    <div class="flex items-center justify-center gap-2">
+                      <svg class="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                      </svg>
+                      Chargement…
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Message vide -->
+        <div id="no-result" class="hidden text-center py-10 text-slate-400">
+          <p class="text-3xl mb-2">📭</p>
+          <p>Aucun manga ne correspond à votre recherche.</p>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <script>
+    /* ---------------------------------------------------------------
+       TOGGLE SIDEBAR (identique à l'accueil)
+       --------------------------------------------------------------- */
+    const toggle = document.getElementById('toggle')
+    const layout = document.getElementById('layout')
+    const labels = document.querySelectorAll('.menu-label')
+    let collapsed = false
+
+    toggle.addEventListener('click', () => {
+      collapsed = !collapsed
+      layout.classList.toggle('grid-cols-[256px_1fr]')
+      layout.classList.toggle('grid-cols-[80px_1fr]')
+      labels.forEach(l => l.classList.toggle('hidden'))
+    })
+
+
+    /* ---------------------------------------------------------------
+       DONNÉES ET RENDU DU TABLEAU
+       --------------------------------------------------------------- */
+    const CATEGORY_LABELS = {
+      shonen: 'Shōnen',
+      shojo:  'Shōjo',
+      seinen: 'Seinen',
+      josei:  'Josei',
+    }
+
+    let allMangas    = []
+    let activeFilter = 'all'
+    let searchQuery  = ''
+    let sortCol      = null
+    let sortAsc      = true
+
+    /**
+     * Génère une ligne <tr> pour un manga.
+     * Les classes .tr, .td, .badge-* sont définies via @apply dans style.css.
+     */
+    function renderRow(manga, index) {
+      return `
+        <tr class="tr">
+          <!--
+            .td          → cellule standard (padding, couleur, font-size)
+            text-slate-500 → numéro de ligne discret
+          -->
+          <td class="td text-slate-500 text-xs">${String(index + 1).padStart(2, '0')}</td>
+
+          <!-- Miniature de la couverture -->
+          <td class="td">
+            <!--
+              w-10 h-14     → taille miniature 40×56px (ratio manga)
+              object-cover  → recadrage sans déformation
+              rounded       → coins légèrement arrondis
+            -->
+            <img
+              src="${manga.cover}"
+              alt="${manga.title}"
+              class="w-10 h-14 object-cover rounded shadow-sm"
+              loading="lazy"
+            />
+          </td>
+
+          <!-- Titre (toujours visible) -->
+          <td class="td">
+            <span class="font-medium text-white">${manga.title}</span>
+          </td>
+
+          <!-- Auteur (masqué sur mobile, visible à partir de md = 768px) -->
+          <!--
+            hidden md:table-cell → "responsive utilities" de Tailwind
+            Sans préfixe : style pour tous les breakpoints (mobile-first)
+            md:          : surcharge à partir de 768px
+          -->
+          <td class="td hidden md:table-cell text-slate-400">${manga.author}</td>
+
+          <!-- Badge catégorie (masqué sur mobile) -->
+          <td class="td hidden sm:table-cell">
+            <span class="badge badge-${manga.category}">${CATEGORY_LABELS[manga.category]}</span>
+          </td>
+
+          <!-- Année (masqué sur petits écrans) -->
+          <td class="td hidden lg:table-cell text-slate-400">${manga.year}</td>
+
+          <!-- Volumes -->
+          <td class="td hidden xl:table-cell text-slate-400 text-center">${manga.volumes}</td>
+
+          <!-- Prix (mise en valeur avec text-green-400) -->
+          <td class="td">
+            <span class="font-semibold text-green-400">${manga.price.toFixed(2)} €</span>
+          </td>
+
+          <!-- Note avec étoile -->
+          <td class="td hidden lg:table-cell">
+            <div class="flex items-center gap-1">
+              <span class="text-yellow-400 text-xs">★</span>
+              <span class="text-slate-300 text-xs">${manga.rating}</span>
+            </div>
+          </td>
+        </tr>
+      `
+    }
+
+    /** Trie et affiche les données dans le tableau */
+    function renderTable(mangas) {
+      const tbody    = document.getElementById('table-body')
+      const noResult = document.getElementById('no-result')
+      const header   = document.getElementById('header-count')
+      const countLabel = document.getElementById('count-label')
+
+      // Mise à jour compteurs
+      if (header)     header.textContent = `${mangas.length} manga${mangas.length > 1 ? 's' : ''}`
+      if (countLabel) countLabel.textContent = mangas.length
+
+      if (mangas.length === 0) {
+        tbody.innerHTML = ''
+        noResult.classList.remove('hidden')
+        return
+      }
+
+      noResult.classList.add('hidden')
+      tbody.innerHTML = mangas.map((m, i) => renderRow(m, i)).join('')
+    }
+
+    /** Applique filtre + recherche + tri */
+    function applyFilters() {
+      let result = allMangas
+
+      if (activeFilter !== 'all') {
+        result = result.filter(m => m.category === activeFilter)
+      }
+
+      if (searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase()
+        result = result.filter(m =>
+          m.title.toLowerCase().includes(q) ||
+          m.author.toLowerCase().includes(q)
+        )
+      }
+
+      // Tri sur une colonne
+      if (sortCol) {
+        result = [...result].sort((a, b) => {
+          const va = a[sortCol]
+          const vb = b[sortCol]
+          if (typeof va === 'string') {
+            return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va)
+          }
+          return sortAsc ? va - vb : vb - va
+        })
+      }
+
+      renderTable(result)
+    }
+
+    /* ---------------------------------------------------------------
+       CHARGEMENT JSON
+       --------------------------------------------------------------- */
+    fetch('/mangas.json')
+      .then(res => res.json())
+      .then(data => {
+        allMangas = data
+        renderTable(allMangas)
+      })
+      .catch(err => {
+        document.getElementById('table-body').innerHTML =
+          `<tr><td colspan="9" class="td text-center py-8 text-red-400">⚠️ Erreur de chargement</td></tr>`
+      })
+
+    /* ---------------------------------------------------------------
+       FILTRE PAR CATÉGORIE
+       --------------------------------------------------------------- */
+    document.getElementById('filters').addEventListener('click', e => {
+      const btn = e.target.closest('[data-filter]')
+      if (!btn) return
+      activeFilter = btn.dataset.filter
+      document.querySelectorAll('[data-filter]').forEach(b => {
+        b.classList.toggle('filter-btn-active',   b === btn)
+        b.classList.toggle('filter-btn-inactive', b !== btn)
+      })
+      applyFilters()
+    })
+
+    /* ---------------------------------------------------------------
+       RECHERCHE AVEC DEBOUNCE
+       --------------------------------------------------------------- */
+    let debounceTimer
+    document.getElementById('search').addEventListener('input', e => {
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        searchQuery = e.target.value
+        applyFilters()
+      }, 200)
+    })
+
+    /* ---------------------------------------------------------------
+       TRI PAR COLONNE au clic sur les <th>
+       Un clic sur la même colonne inverse l'ordre (asc/desc)
+       --------------------------------------------------------------- */
+    document.querySelectorAll('th[data-col]').forEach(th => {
+      th.addEventListener('click', () => {
+        const col = th.dataset.col
+        if (sortCol === col) {
+          sortAsc = !sortAsc  // inverse l'ordre
+        } else {
+          sortCol = col
+          sortAsc = true
+        }
+
+        // Indicateur visuel du tri (↑ / ↓)
+        document.querySelectorAll('.sort-icon').forEach(icon => {
+          icon.textContent = '↕'
+          icon.classList.add('opacity-40')
+        })
+        const icon = th.querySelector('.sort-icon')
+        if (icon) {
+          icon.textContent = sortAsc ? '↑' : '↓'
+          icon.classList.remove('opacity-40')
+          icon.classList.add('text-blue-400')
+        }
+
+        applyFilters()
+      })
+    })
+  </script>
+</body>
+</html>

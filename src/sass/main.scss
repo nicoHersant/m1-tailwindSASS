@@ -16,26 +16,21 @@
 //  disponibles pour les suivants.
 // ============================================================
 
-
 // --- 1. Abstracts ---
 // Ne génèrent aucun CSS, uniquement des variables et mixins.
 @use 'abstracts';
-
 
 // --- 2. Base ---
 // Reset et styles fondamentaux du document.
 @use 'base';
 
-
 // --- 3. Layout ---
 // Mise en page principale : grille, sidebar, header.
 @use 'layout';
 
-
 // --- 4. Components ---
 // Composants réutilisables : cards, badges, boutons…
 @use 'components';
-
 
 // --- 5. Pages ---
 // Styles spécifiques à chaque page.

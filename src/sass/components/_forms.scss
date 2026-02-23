@@ -4,18 +4,10 @@
 //  Champs de formulaire : input de recherche.
 // ============================================================
 
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as mx;
+// @use 'something' as variable_name;
 
 .search-input {
-  width: 100%;
-  background-color: v.$color-bg-card;
-  border: 1px solid v.$color-border;
-  border-radius: v.$radius-lg;
-  padding: v.$spacing-2 v.$spacing-4;
-  font-size: v.$font-size-sm;
-  color: v.$color-text-secondary;
-  transition: border-color v.$transition-base, box-shadow v.$transition-base;
+  // mise en forem
 
   // Style du placeholder
   &::placeholder {

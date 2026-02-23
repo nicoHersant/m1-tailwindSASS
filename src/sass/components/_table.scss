@@ -81,40 +81,31 @@
 
   // --- Cellule de données ---
   &__cell {
-    padding: v.$spacing-3 v.$spacing-4;
-    font-size: v.$font-size-sm;
-    color: v.$color-text-secondary;
-    white-space: nowrap;
+//   Mise en forme
 
     // Variante : texte principal (mise en valeur)
     &--title {
-      font-weight: v.$font-weight-medium;
-      color: v.$color-text-primary;
+      //   Mise en forme
     }
 
     // Variante : prix (vert)
     &--price {
-      font-weight: v.$font-weight-semibold;
-      color: v.$color-success;
+      //   Mise en forme
     }
 
     // Variante : texte discret
     &--muted {
-      color: v.$color-text-muted;
+     //   Mise en forme
     }
 
     // Variante : centré
     &--center {
-      text-align: center;
+      //   Mise en forme
     }
 
     // Miniature image
     &--thumb img {
-      width: 2.5rem;
-      height: 3.5rem;
-      object-fit: cover;
-      border-radius: v.$radius-sm;
-      box-shadow: v.$shadow-sm;
+//   Mise en forme
     }
   }
 }

@@ -9,46 +9,29 @@
 //  .sidebar__link--active → Modifier (--)
 // ============================================================
 
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as mx;
+// @use 'something' as variable_name;
 
 // --- Block : sidebar ---
 .sidebar {
-  @include mx.flex-column;
-  background-color: v.$color-bg-card;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  @include mx.custom-scrollbar;
+//   Mise en forme
 
   // --- Element : logo / titre ---
   &__logo {
-    @include mx.flex-center;
-    gap: v.$spacing-2;
-    height: v.$header-height;
-    font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-bold;
-    color: v.$color-text-primary;
-    border-bottom: 1px solid v.$color-border;
-    padding: 0 v.$spacing-4;
-    overflow: hidden;
+    //   Mise en forme
+
     // Empêche le contenu de déborder lors de l'animation
+    overflow: hidden;
     white-space: nowrap;
   }
 
   // Icône du logo (SVG)
   &__logo-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    flex-shrink: 0;   // ne rétrécit jamais
-    color: v.$color-accent;
+//   Mise en forme
   }
 
   // --- Element : navigation ---
   &__nav {
-    flex: 1;
-    padding: v.$spacing-3;
+//   Mise en forme
 
     // Espacement entre chaque lien
     > * + * {
@@ -58,14 +41,8 @@
 
   // --- Element : lien de navigation ---
   &__link {
-    @include mx.flex-align;
-    gap: v.$spacing-3;
-    padding: v.$spacing-2 v.$spacing-3;
-    border-radius: v.$radius-lg;
-    font-size: v.$font-size-sm;
-    font-weight: v.$font-weight-medium;
-    color: v.$color-text-secondary;
-    transition: background-color v.$transition-base, color v.$transition-base;
+//   Mise en forme
+
     // Suppression de la décoration de lien héritée
     text-decoration: none;
     white-space: nowrap;
@@ -73,18 +50,15 @@
 
     // Pseudo-classe de survol — syntaxe SASS : & = sélecteur parent (.sidebar__link)
     &:hover {
-      background-color: v.$color-bg-hover;
-      color: v.$color-text-primary;
+
     }
 
     // --- Modifier : lien actif (page courante) ---
     &--active {
-      background-color: v.$color-bg-active;
-      color: v.$color-text-primary;
 
       // Quand actif ET survolé : même style
       &:hover {
-        background-color: v.$color-bg-active;
+
       }
     }
 
@@ -116,10 +90,6 @@
 
   // --- Element : footer ---
   &__footer {
-    padding: v.$spacing-3;
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-    text-align: center;
-    border-top: 1px solid v.$color-border;
+//   Mise en forme
   }
 }

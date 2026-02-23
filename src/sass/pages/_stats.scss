@@ -4,44 +4,22 @@
 //  Styles spécifiques à la page statistiques.
 // ============================================================
 
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as mx;
+// @use 'something' as variable_name;
 
 // --- Section : en-tête de la page ---
 .stats-header {
-  @include mx.flex-column;
-  gap: v.$spacing-1;
+//   @include something;
+//   &__title {
 
-  &__title {
-    font-size: v.$font-size-xl;
-    font-weight: v.$font-weight-bold;
-    color: v.$color-text-primary;
-  }
-
-  &__subtitle {
-    font-size: v.$font-size-sm;
-    color: v.$color-text-muted;
-  }
+//   }
 }
 
 // --- Tableau récapitulatif par catégorie ---
 .stats-table-section {
-  @include mx.card-base;
-  padding: v.$spacing-6;
+//   @include something;
 
-  &__header {
-    margin-bottom: v.$spacing-4;
-  }
+//   &__header {
 
-  &__title {
-    font-size: v.$font-size-base;
-    font-weight: v.$font-weight-bold;
-    color: v.$color-text-primary;
-  }
+//   }
 
-  &__subtitle {
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-    margin-top: v.$spacing-1;
-  }
 }

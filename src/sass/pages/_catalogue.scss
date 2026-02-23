@@ -4,69 +4,28 @@
 //  Styles spécifiques à la page tableau de données.
 // ============================================================
 
-@use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as mx;
+// @use 'something' as variable_name;
 
 // --- En-tête de la page ---
 .page-header {
-  @include mx.flex-align(space-between);
-  flex-wrap: wrap;
-  gap: v.$spacing-4;
+  //   @include something;
 
   &__info {
-    @include mx.flex-column;
-    gap: v.$spacing-1;
-  }
-
-  &__title {
-    font-size: v.$font-size-xl;
-    font-weight: v.$font-weight-bold;
-    color: v.$color-text-primary;
-  }
-
-  &__subtitle {
-    font-size: v.$font-size-sm;
-    color: v.$color-text-muted;
-  }
-
-  &__controls {
-    @include mx.flex-align;
-    gap: v.$spacing-3;
-    flex-wrap: wrap;
+    //   @include something;
   }
 }
 
 // Barre de progression (part du catalogue par catégorie)
 .progress-bar {
-  @include mx.flex-align;
-  gap: v.$spacing-3;
-
-  &__track {
-    flex: 1;
-    height: 0.5rem;
-    background-color: v.$color-bg-hover;
-    border-radius: v.$radius-full;
-    overflow: hidden;
-  }
+  //   @include something;
+  
+//   &__track {
+//   }
 
   &__fill {
-    height: 100%;
-    border-radius: v.$radius-full;
-    transition: width v.$transition-slow;
+    //   Mise en forme
 
     // Couleurs par catégorie via @each
-    @each $name, $color in v.$badge-categories {
-      &--#{$name} {
-        background-color: $color;
-      }
-    }
   }
 
-  &__label {
-    font-size: v.$font-size-xs;
-    color: v.$color-text-muted;
-    width: 2rem;
-    text-align: right;
-    flex-shrink: 0;
-  }
 }

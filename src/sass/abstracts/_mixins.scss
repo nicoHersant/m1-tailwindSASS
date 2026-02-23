@@ -17,6 +17,10 @@
 // Import du module sass:map pour manipuler les maps SASS
 @use 'sass:map';
 
+// Import du module sass:color pour les fonctions de couleur modernes
+// (remplace les fonctions globales dépréciées lighten(), darken()…)
+@use 'sass:color';
+
 
 // --- Responsive ---
 // ---------------------------------------------------------------
@@ -96,13 +100,13 @@
 // --- Badge coloré ---
 // ---------------------------------------------------------------
 // Génère les styles d'un badge à partir d'une couleur de base.
-// Utilise les fonctions SASS rgba() et lighten() pour dériver
-// les nuances automatiquement.
+// Utilise rgba() pour la transparence et color.adjust() pour
+// dériver une teinte plus claire (module sass:color).
 //
 // $color : couleur de base du badge
 @mixin badge-variant($color) {
   background-color: rgba($color, 0.2);
-  color: lighten($color, 15%);
+  color: color.adjust($color, $lightness: 15%);
   border-color: rgba($color, 0.4);
 }
 
@@ -127,7 +131,7 @@
   &::-webkit-scrollbar-thumb  {
     background: $thumb;
     border-radius: v.$radius-full;
-    &:hover { background: lighten($thumb, 10%); }
+    &:hover { background: color.adjust($thumb, $lightness: 10%); }
   }
 }
 

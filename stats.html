@@ -3,229 +3,180 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="/src/style.css" rel="stylesheet" />
-  <title>MangaDash — Statistiques</title>
-
-  <!--
-    Chart.js — bibliothèque de graphiques via CDN
-    On l'inclut dans le <head> pour qu'elle soit disponible
-    avant l'exécution du script en bas de page.
-  -->
+  <script type="module" src="/src/sass-main.ts"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <title>MangaDash — Statistiques</title>
 </head>
 
-<body class="min-h-screen bg-gray-950 text-white">
+<body>
+  <div class="layout" id="layout">
 
-  <div id="layout" class="grid min-h-screen grid-cols-[256px_1fr] transition-all duration-300">
-
-    <!-- ============================================================
-         ASIDE — même que les autres pages
-         ============================================================ -->
-    <aside id="aside" class="bg-slate-800 flex flex-col sticky top-0 h-screen overflow-y-auto">
-      <div class="h-16 flex items-center justify-center gap-2 font-bold border-b border-slate-700 px-4 overflow-hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 flex-shrink-0 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <aside class="sidebar" id="aside">
+      <div class="sidebar__logo">
+        <svg class="sidebar__logo-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
-        <span class="menu-label text-slate-100 tracking-wide">MangaDash</span>
+        <span class="sidebar__label menu-label">MangaDash</span>
       </div>
 
-      <nav class="flex-1 p-3 space-y-1 text-sm">
-        <a href="./index.html" class="nav-link">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <nav class="sidebar__nav">
+        <a href="./index.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
-          <span class="menu-label">Accueil</span>
+          <span class="sidebar__label menu-label">Accueil</span>
         </a>
-        <a href="./table.html" class="nav-link">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+        <a href="./table.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>
-          <span class="menu-label">Catalogue</span>
+          <span class="sidebar__label menu-label">Catalogue</span>
         </a>
-        <!-- nav-link-active → page active (Statistiques) -->
-        <a href="./stats.html" class="nav-link nav-link-active">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+        <!-- sidebar__link--active → page courante -->
+        <a href="./stats.html" class="sidebar__link sidebar__link--active">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
-          <span class="menu-label">Statistiques</span>
+          <span class="sidebar__label menu-label">Statistiques</span>
         </a>
       </nav>
 
-      <footer class="p-3 text-xs text-center text-slate-400 border-t border-slate-700">
+      <footer class="sidebar__footer">
         <span class="menu-label">© 2026 MangaDash</span>
       </footer>
     </aside>
 
-    <!-- Zone principale -->
-    <div class="flex flex-col min-h-screen">
+    <div class="layout__main">
 
-      <!-- Header -->
-      <header class="h-16 bg-slate-800 border-b border-slate-700 flex items-center px-6 justify-between sticky top-0 z-10">
-        <button id="toggle" class="text-slate-300 hover:text-blue-400 transition-colors text-xl leading-none">☰</button>
-        <h1 class="text-lg font-semibold tracking-wide">Statistiques</h1>
-        <!-- Chip informatif -->
-        <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-medium border border-purple-500/30">
-          Analyse
-        </span>
+      <header class="header">
+        <button class="header__toggle" id="toggle">☰</button>
+        <h1 class="header__title">Statistiques</h1>
+        <div class="header__actions">
+          <!--
+            Style inline acceptable pour un cas ponctuel non répété.
+            Pour un usage récurrent, on créerait .header__badge--purple en SASS.
+          -->
+          <span class="header__badge" style="--badge-color:#8b5cf6;background:rgba(139,92,246,.2);color:#c4b5fd;border-color:rgba(139,92,246,.3)">
+            Analyse
+          </span>
+        </div>
       </header>
 
-      <!-- ============================================================
-           MAIN — cartes KPI + graphiques
-           ============================================================ -->
-      <main class="flex-1 overflow-y-auto p-6 space-y-8">
+      <main class="main">
 
-        <!-- Titre de section -->
-        <div>
-          <h2 class="text-xl font-bold text-white">Vue d'ensemble</h2>
-          <p class="text-sm text-slate-400 mt-0.5">Analyse de notre catalogue de 20 mangas</p>
+        <!-- En-tête de section (pages/_stats.scss) -->
+        <div class="stats-header">
+          <h2 class="stats-header__title">Vue d'ensemble</h2>
+          <p class="stats-header__subtitle">Analyse de notre catalogue de 20 mangas</p>
         </div>
 
         <!-- ============================================================
-             CARTES KPI (Key Performance Indicators)
-             grid-cols-1 → 1 colonne mobile
-             sm:grid-cols-2 → 2 colonnes dès 640px
-             lg:grid-cols-4 → 4 colonnes dès 1024px
-             gap-4 → espacement 16px
-
-             Les classes .stat-card, .stat-icon, .stat-value, .stat-label
-             sont définies via @apply dans style.css.
+             Grille KPI (components/_stat-cards.scss)
+             .kpi-grid    → grid responsive défini avec le mixin @include responsive()
+             .kpi-card--blue, --green, --purple, --orange
+                          → modificateurs générés par @each sur $kpi-colors
              ============================================================ -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="kpi-section">
+        <section class="kpi-grid">
 
-          <!-- KPI 1 : Total mangas -->
-          <div class="stat-card">
-            <!--
-              bg-blue-500/20 → fond bleu semi-transparent
-              text-blue-400  → texte bleu pour l'icône
-            -->
-            <div class="stat-icon bg-blue-500/20 text-blue-400">📚</div>
-            <div class="stat-content">
-              <p class="stat-value" id="kpi-total">—</p>
-              <p class="stat-label">Total de mangas</p>
+          <div class="kpi-card kpi-card--blue">
+            <div class="kpi-card__icon">📚</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-total">—</p>
+              <p class="kpi-card__label">Total de mangas</p>
             </div>
           </div>
 
-          <!-- KPI 2 : Prix moyen -->
-          <div class="stat-card">
-            <div class="stat-icon bg-green-500/20 text-green-400">💰</div>
-            <div class="stat-content">
-              <p class="stat-value" id="kpi-avg-price">—</p>
-              <p class="stat-label">Prix moyen par tome</p>
+          <div class="kpi-card kpi-card--green">
+            <div class="kpi-card__icon">💰</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-avg-price">—</p>
+              <p class="kpi-card__label">Prix moyen par tome</p>
             </div>
           </div>
 
-          <!-- KPI 3 : Catégorie dominante -->
-          <div class="stat-card">
-            <div class="stat-icon bg-purple-500/20 text-purple-400">🏆</div>
-            <div class="stat-content">
-              <p class="stat-value" id="kpi-top-cat">—</p>
-              <p class="stat-label">Catégorie dominante</p>
+          <div class="kpi-card kpi-card--purple">
+            <div class="kpi-card__icon">🏆</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-top-cat">—</p>
+              <p class="kpi-card__label">Catégorie dominante</p>
             </div>
           </div>
 
-          <!-- KPI 4 : Total de volumes -->
-          <div class="stat-card">
-            <div class="stat-icon bg-orange-500/20 text-orange-400">📖</div>
-            <div class="stat-content">
-              <p class="stat-value" id="kpi-total-vols">—</p>
-              <p class="stat-label">Volumes au total</p>
+          <div class="kpi-card kpi-card--orange">
+            <div class="kpi-card__icon">📖</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-total-vols">—</p>
+              <p class="kpi-card__label">Volumes au total</p>
             </div>
           </div>
         </section>
 
-        <!-- ============================================================
-             GRAPHIQUES — 2 colonnes sur grands écrans
-             grid-cols-1     → 1 colonne par défaut (mobile)
-             lg:grid-cols-2  → 2 colonnes dès 1024px
-             ============================================================ -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Grille des graphiques (components/_stat-cards.scss) -->
+        <section class="charts-grid">
 
-          <!-- Graphique 1 : Histogramme par catégorie -->
-          <!--
-            bg-slate-800   → fond de la carte graphique
-            rounded-xl     → coins arrondis
-            p-6            → padding 24px
-            shadow-lg      → ombre
-            border         → bordure subtile
-          -->
-          <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700/50">
-            <!-- En-tête du graphique -->
-            <div class="mb-4">
-              <h3 class="font-bold text-white">Mangas par catégorie</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Nombre de titres dans chaque genre</p>
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Mangas par catégorie</h3>
+              <p class="chart-card__subtitle">Nombre de titres dans chaque genre</p>
             </div>
-            <!--
-              Conteneur du canvas Chart.js
-              relative + h fixe → Chart.js a besoin d'un conteneur dimensionné
-            -->
-            <div class="relative h-64">
+            <div class="chart-card__canvas">
               <canvas id="categoryChart"></canvas>
             </div>
           </div>
 
-          <!-- Graphique 2 : Donut répartition des prix -->
-          <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700/50">
-            <div class="mb-4">
-              <h3 class="font-bold text-white">Répartition par prix</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Distribution des prix par tranche</p>
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Répartition par prix</h3>
+              <p class="chart-card__subtitle">Distribution par tranche de prix</p>
             </div>
-            <div class="relative h-64">
+            <div class="chart-card__canvas">
               <canvas id="priceChart"></canvas>
             </div>
           </div>
 
-          <!-- Graphique 3 : Note moyenne par catégorie (barre horizontale) -->
-          <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700/50">
-            <div class="mb-4">
-              <h3 class="font-bold text-white">Note moyenne par catégorie</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Score moyen sur 5</p>
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Note moyenne par catégorie</h3>
+              <p class="chart-card__subtitle">Score moyen sur 5</p>
             </div>
-            <div class="relative h-64">
+            <div class="chart-card__canvas">
               <canvas id="ratingChart"></canvas>
             </div>
           </div>
 
-          <!-- Graphique 4 : Volumes par décennie (line chart) -->
-          <div class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700/50">
-            <div class="mb-4">
-              <h3 class="font-bold text-white">Publications par décennie</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Nombre de séries lancées par époque</p>
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Publications par décennie</h3>
+              <p class="chart-card__subtitle">Séries lancées par époque</p>
             </div>
-            <div class="relative h-64">
+            <div class="chart-card__canvas">
               <canvas id="decadeChart"></canvas>
             </div>
           </div>
         </section>
 
-        <!-- ============================================================
-             TABLEAU DE RÉPARTITION PAR CATÉGORIE
-             Section bonus : exemple de table + styles Tailwind
-             ============================================================ -->
-        <section class="bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-700/50 space-y-4">
-          <div>
-            <h3 class="font-bold text-white">Détail par catégorie</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Statistiques complètes pour chaque genre</p>
+        <!-- Tableau récapitulatif (pages/_stats.scss + components/_table.scss) -->
+        <section class="stats-table-section">
+          <div class="stats-table-section__header">
+            <h3 class="stats-table-section__title">Détail par catégorie</h3>
+            <p class="stats-table-section__subtitle">Statistiques complètes pour chaque genre</p>
           </div>
 
-          <div class="overflow-x-auto">
-            <table class="min-w-full">
+          <div class="data-table-wrapper" style="margin-top:1rem">
+            <table class="data-table">
               <thead>
                 <tr>
-                  <th class="th">Catégorie</th>
-                  <th class="th text-center">Titres</th>
-                  <th class="th text-right">Prix moy.</th>
-                  <th class="th text-right hidden sm:table-cell">Note moy.</th>
-                  <th class="th text-right hidden md:table-cell">Volumes tot.</th>
-                  <!--
-                    Colonne "Part" avec barre de progression
-                    hidden lg:table-cell → visible seulement sur grands écrans
-                  -->
-                  <th class="th hidden lg:table-cell">Part du catalogue</th>
+                  <th class="data-table__th">Catégorie</th>
+                  <th class="data-table__th data-table__th--center">Titres</th>
+                  <th class="data-table__th" style="text-align:right">Prix moy.</th>
+                  <th class="data-table__th" style="text-align:right">Note moy.</th>
+                  <th class="data-table__th" style="text-align:right">Volumes</th>
+                  <th class="data-table__th">Part du catalogue</th>
                 </tr>
               </thead>
-              <tbody id="stats-table-body">
-                <!-- Injecté par le JS -->
-              </tbody>
+              <tbody id="stats-table-body"></tbody>
             </table>
           </div>
         </section>
@@ -236,317 +187,165 @@
 
 
   <script>
-    /* ---------------------------------------------------------------
-       TOGGLE SIDEBAR
-       --------------------------------------------------------------- */
+    /* TOGGLE SIDEBAR */
     const toggle = document.getElementById('toggle')
     const layout = document.getElementById('layout')
     const labels = document.querySelectorAll('.menu-label')
-    let collapsed = false
-
     toggle.addEventListener('click', () => {
-      collapsed = !collapsed
-      layout.classList.toggle('grid-cols-[256px_1fr]')
-      layout.classList.toggle('grid-cols-[80px_1fr]')
-      labels.forEach(l => l.classList.toggle('hidden'))
+      layout.classList.toggle('layout--collapsed')
+      labels.forEach(l => l.classList.toggle('is-hidden'))
     })
 
+    /* Chart.js config globale */
+    Chart.defaults.color       = '#94a3b8'
+    Chart.defaults.borderColor = '#1e293b'
 
-    /* ---------------------------------------------------------------
-       CONFIGURATION GLOBALE DE CHART.JS
-       Personnalise l'apparence par défaut de tous les graphiques.
-       --------------------------------------------------------------- */
-    Chart.defaults.color = '#94a3b8'        // text-slate-400
-    Chart.defaults.borderColor = '#1e293b'  // bg-slate-900
+    const CAT_FR = { shonen:'Shōnen', shojo:'Shōjo', seinen:'Seinen', josei:'Josei' }
+    const CAT_COLORS = {
+      shonen: '#3b82f6', shojo: '#ec4899', seinen: '#8b5cf6', josei: '#f97316'
+    }
+    const CATEGORIES = ['shonen','shojo','seinen','josei']
 
-
-    /* ---------------------------------------------------------------
-       CHARGEMENT ET CALCUL DES STATISTIQUES
-       --------------------------------------------------------------- */
     fetch('/mangas.json')
-      .then(res => res.json())
+      .then(r => r.json())
       .then(mangas => {
-        /* --------- KPI --------- */
 
-        // Total de mangas
+        /* KPI */
         document.getElementById('kpi-total').textContent = mangas.length
-
-        // Prix moyen (toFixed(2) → 2 décimales)
-        const avgPrice = mangas.reduce((sum, m) => sum + m.price, 0) / mangas.length
+        const avgPrice = mangas.reduce((s,m) => s + m.price, 0) / mangas.length
         document.getElementById('kpi-avg-price').textContent = avgPrice.toFixed(2) + ' €'
+        document.getElementById('kpi-total-vols').textContent = mangas.reduce((s,m) => s + m.volumes, 0)
 
-        // Total des volumes
-        const totalVols = mangas.reduce((sum, m) => sum + m.volumes, 0)
-        document.getElementById('kpi-total-vols').textContent = totalVols
-
-        // Catégorie dominante
         const catCount = {}
-        mangas.forEach(m => { catCount[m.category] = (catCount[m.category] || 0) + 1 })
-        const topCat = Object.entries(catCount).sort((a, b) => b[1] - a[1])[0]
-        const CAT_FR = { shonen: 'Shōnen', shojo: 'Shōjo', seinen: 'Seinen', josei: 'Josei' }
-        document.getElementById('kpi-top-cat').textContent = CAT_FR[topCat[0]]
+        mangas.forEach(m => { catCount[m.category] = (catCount[m.category]||0)+1 })
+        const top = Object.entries(catCount).sort((a,b) => b[1]-a[1])[0]
+        document.getElementById('kpi-top-cat').textContent = CAT_FR[top[0]]
 
-
-        /* --------- GRAPHIQUE 1 : Histogramme par catégorie --------- */
-        /*
-         * type: 'bar' → histogramme vertical (barres)
-         * Les options scales configurent les axes X et Y.
-         * borderRadius → barres arrondies en haut (style moderne)
-         */
+        /* Graphique 1 : Histogramme par catégorie */
         new Chart(document.getElementById('categoryChart'), {
           type: 'bar',
           data: {
-            labels: ['Shōnen', 'Shōjo', 'Seinen', 'Josei'],
+            labels: CATEGORIES.map(c => CAT_FR[c]),
             datasets: [{
-              label: 'Nombre de mangas',
-              data: [
-                catCount.shonen || 0,
-                catCount.shojo  || 0,
-                catCount.seinen || 0,
-                catCount.josei  || 0,
-              ],
-              // Couleurs différentes par barre : tableau de couleurs
-              backgroundColor: [
-                'rgba(59, 130, 246, 0.7)',   // blue-500
-                'rgba(236, 72, 153, 0.7)',   // pink-500
-                'rgba(139, 92, 246, 0.7)',   // purple-500
-                'rgba(249, 115, 22, 0.7)',   // orange-500
-              ],
-              borderColor: [
-                'rgb(59, 130, 246)',
-                'rgb(236, 72, 153)',
-                'rgb(139, 92, 246)',
-                'rgb(249, 115, 22)',
-              ],
-              borderWidth: 1,
-              borderRadius: 6,           // coins arrondis des barres
-              borderSkipped: false,      // arrondi sur tous les coins
+              data: CATEGORIES.map(c => catCount[c]||0),
+              backgroundColor: CATEGORIES.map(c => `${CAT_COLORS[c]}b3`),
+              borderColor:     CATEGORIES.map(c => CAT_COLORS[c]),
+              borderWidth: 1, borderRadius: 6, borderSkipped: false,
             }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false,  // respecte la hauteur du conteneur
-            plugins: {
-              legend: { display: false } // on n'affiche pas la légende (labels dans X)
-            },
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
             scales: {
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  stepSize: 2,
-                  color: '#94a3b8'
-                },
-                grid: { color: 'rgba(30, 41, 59, 0.8)' }
-              },
-              x: {
-                ticks: { color: '#cbd5e1' },
-                grid: { display: false }
-              }
+              y: { beginAtZero:true, ticks:{stepSize:2,color:'#94a3b8'}, grid:{color:'rgba(30,41,59,.8)'} },
+              x: { ticks:{color:'#cbd5e1'}, grid:{display:false} }
             }
           }
         })
 
-
-        /* --------- GRAPHIQUE 2 : Donut — répartition des prix --------- */
-        /*
-         * type: 'doughnut' → graphique en anneau
-         * Parfait pour montrer des proportions / parts.
-         */
-        const priceRanges = { 'Moins de 7 €': 0, '7 € à 8 €': 0, 'Plus de 8 €': 0 }
+        /* Graphique 2 : Donut prix */
+        const priceR = {'Moins de 7 €':0,'7 € à 8 €':0,'Plus de 8 €':0}
         mangas.forEach(m => {
-          if      (m.price < 7)  priceRanges['Moins de 7 €']++
-          else if (m.price <= 8) priceRanges['7 € à 8 €']++
-          else                   priceRanges['Plus de 8 €']++
+          if      (m.price < 7)  priceR['Moins de 7 €']++
+          else if (m.price <= 8) priceR['7 € à 8 €']++
+          else                   priceR['Plus de 8 €']++
         })
-
         new Chart(document.getElementById('priceChart'), {
           type: 'doughnut',
           data: {
-            labels: Object.keys(priceRanges),
+            labels: Object.keys(priceR),
             datasets: [{
-              data: Object.values(priceRanges),
-              backgroundColor: [
-                'rgba(59, 130, 246, 0.8)',  // blue
-                'rgba(16, 185, 129, 0.8)',  // green
-                'rgba(245, 158, 11, 0.8)',  // amber
-              ],
-              borderColor: '#1e293b',       // fond sombre entre les segments
-              borderWidth: 3,
-              hoverOffset: 8,               // agrandissement au survol
+              data: Object.values(priceR),
+              backgroundColor: ['rgba(59,130,246,.8)','rgba(16,185,129,.8)','rgba(245,158,11,.8)'],
+              borderColor: '#1e293b', borderWidth: 3, hoverOffset: 8,
             }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: {
-                  color: '#94a3b8',
-                  padding: 16,
-                  usePointStyle: true,     // légende avec point rond au lieu de carré
-                  pointStyleWidth: 8,
-                }
-              }
-            }
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position:'bottom', labels:{color:'#94a3b8',padding:16,usePointStyle:true} } }
           }
         })
 
-
-        /* --------- GRAPHIQUE 3 : Barres horizontales — notes --------- */
-        /*
-         * type: 'bar' + indexAxis: 'y' → barres horizontales
-         * Utile pour comparer des valeurs avec des labels longs.
-         */
-        const catRatings = {}
-        const catCounts2  = {}
+        /* Graphique 3 : Barres horizontales — note moyenne */
+        const catRatings = {}, catCounts2 = {}
         mangas.forEach(m => {
-          catRatings[m.category] = (catRatings[m.category] || 0) + m.rating
-          catCounts2[m.category] = (catCounts2[m.category] || 0) + 1
+          catRatings[m.category] = (catRatings[m.category]||0) + m.rating
+          catCounts2[m.category] = (catCounts2[m.category]||0) + 1
         })
-        const categories = ['shonen', 'shojo', 'seinen', 'josei']
-        const avgRatings = categories.map(c =>
-          catCounts2[c] ? (catRatings[c] / catCounts2[c]).toFixed(2) : 0
-        )
-
         new Chart(document.getElementById('ratingChart'), {
           type: 'bar',
           data: {
-            labels: ['Shōnen', 'Shōjo', 'Seinen', 'Josei'],
+            labels: CATEGORIES.map(c => CAT_FR[c]),
             datasets: [{
-              label: 'Note moyenne',
-              data: avgRatings,
-              backgroundColor: 'rgba(139, 92, 246, 0.7)',   // purple
-              borderColor: 'rgb(139, 92, 246)',
-              borderWidth: 1,
-              borderRadius: 6,
+              data: CATEGORIES.map(c => catCounts2[c] ? (catRatings[c]/catCounts2[c]).toFixed(2) : 0),
+              backgroundColor: 'rgba(139,92,246,.7)', borderColor:'rgb(139,92,246)',
+              borderWidth: 1, borderRadius: 6,
             }]
           },
           options: {
-            indexAxis: 'y',              // BARRES HORIZONTALES
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display:false } },
             scales: {
-              x: {
-                min: 4,                  // on commence à 4 pour mieux voir les différences
-                max: 5,
-                ticks: { color: '#94a3b8', stepSize: 0.2 },
-                grid: { color: 'rgba(30, 41, 59, 0.8)' }
-              },
-              y: {
-                ticks: { color: '#cbd5e1' },
-                grid: { display: false }
-              }
+              x: { min:4, max:5, ticks:{color:'#94a3b8',stepSize:.2}, grid:{color:'rgba(30,41,59,.8)'} },
+              y: { ticks:{color:'#cbd5e1'}, grid:{display:false} }
             }
           }
         })
 
-
-        /* --------- GRAPHIQUE 4 : Line chart — publications par décennie --------- */
-        /*
-         * type: 'line' → courbe
-         * tension → courbe lissée (bezier)
-         * fill → aire sous la courbe colorée
-         */
+        /* Graphique 4 : Line par décennie */
         const decades = {}
-        mangas.forEach(m => {
-          const decade = Math.floor(m.year / 10) * 10
-          decades[decade] = (decades[decade] || 0) + 1
-        })
-
-        // On trie les décennies chronologiquement
-        const sortedDecades = Object.keys(decades).sort().map(Number)
-
+        mangas.forEach(m => { const d = Math.floor(m.year/10)*10; decades[d]=(decades[d]||0)+1 })
+        const sortedD = Object.keys(decades).sort().map(Number)
         new Chart(document.getElementById('decadeChart'), {
           type: 'line',
           data: {
-            labels: sortedDecades.map(d => `${d}s`),
+            labels: sortedD.map(d => `${d}s`),
             datasets: [{
-              label: 'Séries lancées',
-              data: sortedDecades.map(d => decades[d]),
-              borderColor: 'rgb(59, 130, 246)',             // blue-500
-              backgroundColor: 'rgba(59, 130, 246, 0.1)',   // blue transparent (fill)
-              tension: 0.4,        // courbure de la ligne (0 = droite, 1 = très courbé)
-              fill: true,          // remplit l'aire sous la courbe
-              pointBackgroundColor: 'rgb(59, 130, 246)',
-              pointBorderColor: '#0f172a',
-              pointBorderWidth: 2,
-              pointRadius: 5,
+              data: sortedD.map(d => decades[d]),
+              borderColor:'rgb(59,130,246)', backgroundColor:'rgba(59,130,246,.1)',
+              tension:.4, fill:true,
+              pointBackgroundColor:'rgb(59,130,246)', pointBorderColor:'#0f172a', pointBorderWidth:2, pointRadius:5,
             }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: { stepSize: 1, color: '#94a3b8' },
-                grid: { color: 'rgba(30, 41, 59, 0.8)' }
-              },
-              x: {
-                ticks: { color: '#cbd5e1' },
-                grid: { display: false }
-              }
+            responsive:true, maintainAspectRatio:false,
+            plugins:{legend:{display:false}},
+            scales:{
+              y:{beginAtZero:true,ticks:{stepSize:1,color:'#94a3b8'},grid:{color:'rgba(30,41,59,.8)'}},
+              x:{ticks:{color:'#cbd5e1'},grid:{display:false}}
             }
           }
         })
 
-
-        /* --------- TABLEAU DE DÉTAIL PAR CATÉGORIE --------- */
-        const catDetails = categories.map(cat => {
+        /* Tableau récapitulatif */
+        document.getElementById('stats-table-body').innerHTML = CATEGORIES.map(cat => {
           const items = mangas.filter(m => m.category === cat)
           const count = items.length
-          const avgP  = count ? (items.reduce((s, m) => s + m.price, 0) / count).toFixed(2) : '—'
-          const avgR  = count ? (items.reduce((s, m) => s + m.rating, 0) / count).toFixed(1) : '—'
-          const totalV = items.reduce((s, m) => s + m.volumes, 0)
-          const pct   = ((count / mangas.length) * 100).toFixed(0)
-          return { cat, count, avgP, avgR, totalV, pct }
-        })
-
-        const COLOR_CLASS = {
-          shonen: 'bg-blue-500',
-          shojo:  'bg-pink-500',
-          seinen: 'bg-purple-500',
-          josei:  'bg-orange-500',
-        }
-
-        document.getElementById('stats-table-body').innerHTML = catDetails.map(d => `
-          <tr class="tr">
-            <td class="td">
-              <span class="badge badge-${d.cat}">${CAT_FR[d.cat]}</span>
-            </td>
-            <!--
-              text-center → alignement centré du nombre de titres
-              font-bold   → mise en valeur
-            -->
-            <td class="td text-center font-bold text-white">${d.count}</td>
-            <td class="td text-right text-green-400 font-semibold">${d.avgP} €</td>
-            <td class="td text-right hidden sm:table-cell">
-              <span class="text-yellow-400">★</span> ${d.avgR}
-            </td>
-            <td class="td text-right hidden md:table-cell text-slate-400">${d.totalV}</td>
-            <!-- Barre de progression : affiche visuellement la part du catalogue -->
-            <td class="td hidden lg:table-cell">
-              <div class="flex items-center gap-3">
-                <!--
-                  w-full bg-slate-700 rounded-full h-2 → conteneur de la barre
-                  ${COLOR_CLASS[d.cat]}                → couleur de remplissage
-                  style="width: ${d.pct}%"             → largeur dynamique en %
-                -->
-                <div class="flex-1 bg-slate-700 rounded-full h-2 overflow-hidden">
-                  <div class="${COLOR_CLASS[d.cat]} h-2 rounded-full transition-all duration-500"
-                       style="width: ${d.pct}%"></div>
+          const avgP  = count ? (items.reduce((s,m) => s+m.price,0)/count).toFixed(2) : '—'
+          const avgR  = count ? (items.reduce((s,m) => s+m.rating,0)/count).toFixed(1) : '—'
+          const totalV = items.reduce((s,m) => s+m.volumes, 0)
+          const pct   = Math.round((count/mangas.length)*100)
+          return `
+            <tr class="data-table__row">
+              <td class="data-table__cell">
+                <span class="badge badge--${cat}">${CAT_FR[cat]}</span>
+              </td>
+              <td class="data-table__cell" style="text-align:center;font-weight:700;color:#f1f5f9">${count}</td>
+              <td class="data-table__cell" style="text-align:right;color:#10b981;font-weight:600">${avgP} €</td>
+              <td class="data-table__cell" style="text-align:right">
+                <span style="color:#f59e0b">★</span> ${avgR}
+              </td>
+              <td class="data-table__cell" style="text-align:right;color:#94a3b8">${totalV}</td>
+              <td class="data-table__cell">
+                <div class="progress-bar">
+                  <div class="progress-bar__track">
+                    <div class="progress-bar__fill progress-bar__fill--${cat}" style="width:${pct}%"></div>
+                  </div>
+                  <span class="progress-bar__label">${pct}%</span>
                 </div>
-                <span class="text-xs text-slate-400 w-8 text-right">${d.pct}%</span>
-              </div>
-            </td>
-          </tr>
-        `).join('')
-      })
-      .catch(err => {
-        console.error('Erreur de chargement :', err)
+              </td>
+            </tr>`
+        }).join('')
       })
   </script>
 </body>

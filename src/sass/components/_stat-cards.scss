@@ -7,6 +7,7 @@
 
 @use '../abstracts/variables' as v;
 @use '../abstracts/mixins' as mx;
+@use 'sass:color';
 
 // --- Grille des KPI ---
 .kpi-grid {
@@ -73,7 +74,7 @@
   @each $name, $color in $kpi-colors {
     &--#{$name} &__icon {
       background-color: rgba($color, 0.2);
-      color: lighten($color, 10%);
+      color: color.adjust($color, $lightness: 10%);
     }
   }
 }

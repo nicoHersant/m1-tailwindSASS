@@ -6,6 +6,7 @@
 
 @use '../abstracts/variables' as v;
 @use '../abstracts/mixins' as mx;
+@use 'sass:color';
 
 .header {
   @include mx.flex-align(space-between);
@@ -60,7 +61,7 @@
     padding: v.$spacing-1 v.$spacing-3;
     border-radius: v.$radius-full;
     background-color: rgba(v.$color-accent, 0.2);
-    color: lighten(v.$color-accent, 15%);
+    color: color.adjust(v.$color-accent, $lightness: 15%);
     border: 1px solid rgba(v.$color-accent, 0.3);
     font-size: v.$font-size-xs;
     font-weight: v.$font-weight-medium;

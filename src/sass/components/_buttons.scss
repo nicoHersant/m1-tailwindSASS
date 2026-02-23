@@ -7,6 +7,7 @@
 
 @use '../abstracts/variables' as v;
 @use '../abstracts/mixins' as mx;
+@use 'sass:color';
 
 // --- Bouton principal ---
 .btn {
@@ -34,7 +35,7 @@
     &:hover {
       color: v.$color-text-primary;
       background-color: v.$color-bg-hover;
-      border-color: lighten(v.$color-border, 10%);
+      border-color: color.adjust(v.$color-border, $lightness: 10%);
     }
   }
 
@@ -54,7 +55,7 @@
   color: v.$color-text-muted;
 
   &:hover {
-    border-color: lighten(v.$color-border, 15%);
+    border-color: color.adjust(v.$color-border, $lightness: 15%);
     color: v.$color-text-secondary;
   }
 

@@ -1,8 +1,4 @@
-import './style.css'
-
-document.documentElement.classList.toggle(
-  "dark",
-  localStorage.theme === "dark" ||
-    (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-);
-
+// Point d'entrée TypeScript pour les pages SASS.
+// Vite détecte l'import .scss et compile SASS automatiquement
+// (nécessite le package `sass` dans les devDependencies).
+import './sass/main.scss'

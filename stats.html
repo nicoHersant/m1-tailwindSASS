@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script type="module" src="/src/sass-main.ts"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script type="module" src="/src/main.ts"></script>
+  <script src="src/charts.js"></script>
+  <script type="module" src="/src/stats.ts"></script>
   <title>MangaDash — Statistiques</title>
 </head>
 
@@ -76,7 +77,7 @@
              Grille KPI (components/_stat-cards.scss)
              .kpi-grid    → grid responsive défini avec le mixin @include responsive()
              .kpi-card--blue, --green, --purple, --orange
-                          → modificateurs générés par @each sur $kpi-colors
+                → modificateurs générés par @each sur $kpi-colors
              ============================================================ -->
         <section class="kpi-grid">
 
@@ -186,167 +187,5 @@
   </div>
 
 
-  <script>
-    /* TOGGLE SIDEBAR */
-    const toggle = document.getElementById('toggle')
-    const layout = document.getElementById('layout')
-    const labels = document.querySelectorAll('.menu-label')
-    toggle.addEventListener('click', () => {
-      layout.classList.toggle('layout--collapsed')
-      labels.forEach(l => l.classList.toggle('is-hidden'))
-    })
-
-    /* Chart.js config globale */
-    Chart.defaults.color       = '#94a3b8'
-    Chart.defaults.borderColor = '#1e293b'
-
-    const CAT_FR = { shonen:'Shōnen', shojo:'Shōjo', seinen:'Seinen', josei:'Josei' }
-    const CAT_COLORS = {
-      shonen: '#3b82f6', shojo: '#ec4899', seinen: '#8b5cf6', josei: '#f97316'
-    }
-    const CATEGORIES = ['shonen','shojo','seinen','josei']
-
-    fetch('/mangas.json')
-      .then(r => r.json())
-      .then(mangas => {
-
-        /* KPI */
-        document.getElementById('kpi-total').textContent = mangas.length
-        const avgPrice = mangas.reduce((s,m) => s + m.price, 0) / mangas.length
-        document.getElementById('kpi-avg-price').textContent = avgPrice.toFixed(2) + ' €'
-        document.getElementById('kpi-total-vols').textContent = mangas.reduce((s,m) => s + m.volumes, 0)
-
-        const catCount = {}
-        mangas.forEach(m => { catCount[m.category] = (catCount[m.category]||0)+1 })
-        const top = Object.entries(catCount).sort((a,b) => b[1]-a[1])[0]
-        document.getElementById('kpi-top-cat').textContent = CAT_FR[top[0]]
-
-        /* Graphique 1 : Histogramme par catégorie */
-        new Chart(document.getElementById('categoryChart'), {
-          type: 'bar',
-          data: {
-            labels: CATEGORIES.map(c => CAT_FR[c]),
-            datasets: [{
-              data: CATEGORIES.map(c => catCount[c]||0),
-              backgroundColor: CATEGORIES.map(c => `${CAT_COLORS[c]}b3`),
-              borderColor:     CATEGORIES.map(c => CAT_COLORS[c]),
-              borderWidth: 1, borderRadius: 6, borderSkipped: false,
-            }]
-          },
-          options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              y: { beginAtZero:true, ticks:{stepSize:2,color:'#94a3b8'}, grid:{color:'rgba(30,41,59,.8)'} },
-              x: { ticks:{color:'#cbd5e1'}, grid:{display:false} }
-            }
-          }
-        })
-
-        /* Graphique 2 : Donut prix */
-        const priceR = {'Moins de 7 €':0,'7 € à 8 €':0,'Plus de 8 €':0}
-        mangas.forEach(m => {
-          if      (m.price < 7)  priceR['Moins de 7 €']++
-          else if (m.price <= 8) priceR['7 € à 8 €']++
-          else                   priceR['Plus de 8 €']++
-        })
-        new Chart(document.getElementById('priceChart'), {
-          type: 'doughnut',
-          data: {
-            labels: Object.keys(priceR),
-            datasets: [{
-              data: Object.values(priceR),
-              backgroundColor: ['rgba(59,130,246,.8)','rgba(16,185,129,.8)','rgba(245,158,11,.8)'],
-              borderColor: '#1e293b', borderWidth: 3, hoverOffset: 8,
-            }]
-          },
-          options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position:'bottom', labels:{color:'#94a3b8',padding:16,usePointStyle:true} } }
-          }
-        })
-
-        /* Graphique 3 : Barres horizontales — note moyenne */
-        const catRatings = {}, catCounts2 = {}
-        mangas.forEach(m => {
-          catRatings[m.category] = (catRatings[m.category]||0) + m.rating
-          catCounts2[m.category] = (catCounts2[m.category]||0) + 1
-        })
-        new Chart(document.getElementById('ratingChart'), {
-          type: 'bar',
-          data: {
-            labels: CATEGORIES.map(c => CAT_FR[c]),
-            datasets: [{
-              data: CATEGORIES.map(c => catCounts2[c] ? (catRatings[c]/catCounts2[c]).toFixed(2) : 0),
-              backgroundColor: 'rgba(139,92,246,.7)', borderColor:'rgb(139,92,246)',
-              borderWidth: 1, borderRadius: 6,
-            }]
-          },
-          options: {
-            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display:false } },
-            scales: {
-              x: { min:4, max:5, ticks:{color:'#94a3b8',stepSize:.2}, grid:{color:'rgba(30,41,59,.8)'} },
-              y: { ticks:{color:'#cbd5e1'}, grid:{display:false} }
-            }
-          }
-        })
-
-        /* Graphique 4 : Line par décennie */
-        const decades = {}
-        mangas.forEach(m => { const d = Math.floor(m.year/10)*10; decades[d]=(decades[d]||0)+1 })
-        const sortedD = Object.keys(decades).sort().map(Number)
-        new Chart(document.getElementById('decadeChart'), {
-          type: 'line',
-          data: {
-            labels: sortedD.map(d => `${d}s`),
-            datasets: [{
-              data: sortedD.map(d => decades[d]),
-              borderColor:'rgb(59,130,246)', backgroundColor:'rgba(59,130,246,.1)',
-              tension:.4, fill:true,
-              pointBackgroundColor:'rgb(59,130,246)', pointBorderColor:'#0f172a', pointBorderWidth:2, pointRadius:5,
-            }]
-          },
-          options: {
-            responsive:true, maintainAspectRatio:false,
-            plugins:{legend:{display:false}},
-            scales:{
-              y:{beginAtZero:true,ticks:{stepSize:1,color:'#94a3b8'},grid:{color:'rgba(30,41,59,.8)'}},
-              x:{ticks:{color:'#cbd5e1'},grid:{display:false}}
-            }
-          }
-        })
-
-        /* Tableau récapitulatif */
-        document.getElementById('stats-table-body').innerHTML = CATEGORIES.map(cat => {
-          const items = mangas.filter(m => m.category === cat)
-          const count = items.length
-          const avgP  = count ? (items.reduce((s,m) => s+m.price,0)/count).toFixed(2) : '—'
-          const avgR  = count ? (items.reduce((s,m) => s+m.rating,0)/count).toFixed(1) : '—'
-          const totalV = items.reduce((s,m) => s+m.volumes, 0)
-          const pct   = Math.round((count/mangas.length)*100)
-          return `
-            <tr class="data-table__row">
-              <td class="data-table__cell">
-                <span class="badge badge--${cat}">${CAT_FR[cat]}</span>
-              </td>
-              <td class="data-table__cell" style="text-align:center;font-weight:700;color:#f1f5f9">${count}</td>
-              <td class="data-table__cell" style="text-align:right;color:#10b981;font-weight:600">${avgP} €</td>
-              <td class="data-table__cell" style="text-align:right">
-                <span style="color:#f59e0b">★</span> ${avgR}
-              </td>
-              <td class="data-table__cell" style="text-align:right;color:#94a3b8">${totalV}</td>
-              <td class="data-table__cell">
-                <div class="progress-bar">
-                  <div class="progress-bar__track">
-                    <div class="progress-bar__fill progress-bar__fill--${cat}" style="width:${pct}%"></div>
-                  </div>
-                  <span class="progress-bar__label">${pct}%</span>
-                </div>
-              </td>
-            </tr>`
-        }).join('')
-      })
-  </script>
 </body>
 </html>

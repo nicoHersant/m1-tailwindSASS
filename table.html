@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script type="module" src="/src/sass-main.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/table.ts"></script>
   <title>MangaDash — Catalogue</title>
 </head>
 
@@ -141,114 +142,5 @@
   </div>
 
 
-  <script>
-    /* TOGGLE SIDEBAR */
-    const toggle = document.getElementById('toggle')
-    const layout = document.getElementById('layout')
-    const labels = document.querySelectorAll('.menu-label')
-
-    toggle.addEventListener('click', () => {
-      layout.classList.toggle('layout--collapsed')
-      labels.forEach(l => l.classList.toggle('is-hidden'))
-    })
-
-    /* Colonnes responsive (afficher/masquer selon la largeur) */
-    function updateColumns() {
-      const w = window.innerWidth
-      document.getElementById('th-author').style.display  = w >= 768  ? '' : 'none'
-      document.getElementById('th-cat').style.display     = w >= 640  ? '' : 'none'
-      document.getElementById('th-year').style.display    = w >= 1024 ? '' : 'none'
-      document.getElementById('th-vol').style.display     = w >= 1280 ? '' : 'none'
-      document.getElementById('th-rating').style.display  = w >= 1024 ? '' : 'none'
-    }
-    updateColumns()
-    window.addEventListener('resize', updateColumns)
-
-    /* DONNÉES */
-    const CAT = { shonen:'Shōnen', shojo:'Shōjo', seinen:'Seinen', josei:'Josei' }
-    let allMangas = [], activeFilter = 'all', searchQuery = '', sortCol = null, sortAsc = true
-
-    function renderRow(m, i) {
-      const w = window.innerWidth
-      return `
-        <tr class="data-table__row">
-          <td class="data-table__cell data-table__cell--muted" style="font-size:.75rem">${String(i+1).padStart(2,'0')}</td>
-          <td class="data-table__cell data-table__cell--thumb">
-            <img src="${m.cover}" alt="${m.title}" loading="lazy" />
-          </td>
-          <td class="data-table__cell data-table__cell--title">${m.title}</td>
-          ${w >= 768  ? `<td class="data-table__cell data-table__cell--muted">${m.author}</td>` : ''}
-          ${w >= 640  ? `<td class="data-table__cell"><span class="badge badge--${m.category}">${CAT[m.category]}</span></td>` : ''}
-          ${w >= 1024 ? `<td class="data-table__cell data-table__cell--muted">${m.year}</td>` : ''}
-          ${w >= 1280 ? `<td class="data-table__cell data-table__cell--center">${m.volumes}</td>` : ''}
-          <td class="data-table__cell data-table__cell--price">${m.price.toFixed(2)} €</td>
-          ${w >= 1024 ? `<td class="data-table__cell"><span style="color:#f59e0b">★</span> ${m.rating}</td>` : ''}
-        </tr>`
-    }
-
-    function renderTable(mangas) {
-      const tbody = document.getElementById('table-body')
-      const noRes = document.getElementById('no-result')
-      const hCount = document.getElementById('header-count')
-      const cl = document.getElementById('count-label')
-      const label = `${mangas.length} manga${mangas.length > 1 ? 's' : ''}`
-      if (hCount) hCount.textContent = label
-      if (cl)     cl.textContent     = mangas.length
-
-      if (!mangas.length) { tbody.innerHTML=''; noRes.style.display='block'; return }
-      noRes.style.display = 'none'
-      tbody.innerHTML = mangas.map((m,i) => renderRow(m,i)).join('')
-    }
-
-    function applyFilters() {
-      let r = allMangas
-      if (activeFilter !== 'all') r = r.filter(m => m.category === activeFilter)
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase()
-        r = r.filter(m => m.title.toLowerCase().includes(q) || m.author.toLowerCase().includes(q))
-      }
-      if (sortCol) {
-        r = [...r].sort((a,b) => {
-          const va = a[sortCol], vb = b[sortCol]
-          return typeof va === 'string'
-            ? (sortAsc ? va.localeCompare(vb) : vb.localeCompare(va))
-            : (sortAsc ? va - vb : vb - va)
-        })
-      }
-      renderTable(r)
-    }
-
-    fetch('/mangas.json').then(r => r.json()).then(data => { allMangas=data; renderTable(allMangas) })
-
-    document.getElementById('filters').addEventListener('click', e => {
-      const btn = e.target.closest('[data-filter]')
-      if (!btn) return
-      activeFilter = btn.dataset.filter
-      document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('filter-btn--active', b===btn))
-      applyFilters()
-    })
-
-    let timer
-    document.getElementById('search').addEventListener('input', e => {
-      clearTimeout(timer); timer = setTimeout(() => { searchQuery = e.target.value; applyFilters() }, 200)
-    })
-
-    document.querySelectorAll('th[data-col]').forEach(th => {
-      th.addEventListener('click', () => {
-        const col = th.dataset.col
-        sortAsc = sortCol === col ? !sortAsc : true
-        sortCol = col
-        document.querySelectorAll('.sort-icon').forEach(i => { i.textContent='↕'; i.style.color='' })
-        const icon = th.querySelector('.sort-icon')
-        if (icon) { icon.textContent = sortAsc ? '↑' : '↓'; icon.style.color = '#3b82f6' }
-        th.classList.add('is-sorted')
-        applyFilters()
-      })
-    })
-
-    window.addEventListener('resize', () => renderTable(
-      allMangas.filter(m => activeFilter === 'all' || m.category === activeFilter)
-    ))
-  </script>
 </body>
 </html>

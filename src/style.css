@@ -29,9 +29,9 @@
    classes utilitaires Tailwind dans une classe CSS nommée.
 
    Quand utiliser @apply ?
-   ✅ Pour les composants répétés (card, badge, btn, nav-link…)
-   ✅ Pour réduire la verbosité HTML sur des patterns complexes
-   ❌ Ne pas en abuser : garder les classes utilitaires inline
+    Pour les composants répétés (card, badge, btn, nav-link…)
+    Pour réduire la verbosité HTML sur des patterns complexes
+    Ne pas en abuser : garder les classes utilitaires inline
       pour les styles ponctuels et non répétés.
    ============================================================ */
 

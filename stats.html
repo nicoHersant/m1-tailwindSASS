@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="module" src="/src/main.ts"></script>
+  <script src="src/charts.js"></script>
+  <script type="module" src="/src/stats.ts"></script>
+  <title>MangaDash — Statistiques</title>
+</head>
+
+<body>
+  <div class="layout" id="layout">
+
+    <aside class="sidebar" id="aside">
+      <div class="sidebar__logo">
+        <svg class="sidebar__logo-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <span class="sidebar__label menu-label">MangaDash</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="./index.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <span class="sidebar__label menu-label">Accueil</span>
+        </a>
+
+        <a href="./table.html" class="sidebar__link">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span class="sidebar__label menu-label">Catalogue</span>
+        </a>
+
+        <!-- sidebar__link--active → page courante -->
+        <a href="./stats.html" class="sidebar__link sidebar__link--active">
+          <svg class="sidebar__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <span class="sidebar__label menu-label">Statistiques</span>
+        </a>
+      </nav>
+
+      <footer class="sidebar__footer">
+        <span class="menu-label">© 2026 MangaDash</span>
+      </footer>
+    </aside>
+
+    <div class="layout__main">
+
+      <header class="header">
+        <button class="header__toggle" id="toggle">☰</button>
+        <h1 class="header__title">Statistiques</h1>
+        <div class="header__actions">
+          <!--
+            Style inline acceptable pour un cas ponctuel non répété.
+            Pour un usage récurrent, on créerait .header__badge--purple en SASS.
+          -->
+          <span class="header__badge" style="--badge-color:#8b5cf6;background:rgba(139,92,246,.2);color:#c4b5fd;border-color:rgba(139,92,246,.3)">
+            Analyse
+          </span>
+        </div>
+      </header>
+
+      <main class="main">
+
+        <!-- En-tête de section (pages/_stats.scss) -->
+        <div class="stats-header">
+          <h2 class="stats-header__title">Vue d'ensemble</h2>
+          <p class="stats-header__subtitle">Analyse de notre catalogue de 20 mangas</p>
+        </div>
+
+        <!-- ============================================================
+             Grille KPI (components/_stat-cards.scss)
+             .kpi-grid    → grid responsive défini avec le mixin @include responsive()
+             .kpi-card--blue, --green, --purple, --orange
+                → modificateurs générés par @each sur $kpi-colors
+             ============================================================ -->
+        <section class="kpi-grid">
+
+          <div class="kpi-card kpi-card--blue">
+            <div class="kpi-card__icon">📚</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-total">—</p>
+              <p class="kpi-card__label">Total de mangas</p>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--green">
+            <div class="kpi-card__icon">💰</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-avg-price">—</p>
+              <p class="kpi-card__label">Prix moyen par tome</p>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--purple">
+            <div class="kpi-card__icon">🏆</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-top-cat">—</p>
+              <p class="kpi-card__label">Catégorie dominante</p>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi-card--orange">
+            <div class="kpi-card__icon">📖</div>
+            <div class="kpi-card__content">
+              <p class="kpi-card__value" id="kpi-total-vols">—</p>
+              <p class="kpi-card__label">Volumes au total</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Grille des graphiques (components/_stat-cards.scss) -->
+        <section class="charts-grid">
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Mangas par catégorie</h3>
+              <p class="chart-card__subtitle">Nombre de titres dans chaque genre</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Répartition par prix</h3>
+              <p class="chart-card__subtitle">Distribution par tranche de prix</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="priceChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Note moyenne par catégorie</h3>
+              <p class="chart-card__subtitle">Score moyen sur 5</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="ratingChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card__header">
+              <h3 class="chart-card__title">Publications par décennie</h3>
+              <p class="chart-card__subtitle">Séries lancées par époque</p>
+            </div>
+            <div class="chart-card__canvas">
+              <canvas id="decadeChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tableau récapitulatif (pages/_stats.scss + components/_table.scss) -->
+        <section class="stats-table-section">
+          <div class="stats-table-section__header">
+            <h3 class="stats-table-section__title">Détail par catégorie</h3>
+            <p class="stats-table-section__subtitle">Statistiques complètes pour chaque genre</p>
+          </div>
+
+          <div class="data-table-wrapper" style="margin-top:1rem">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="data-table__th">Catégorie</th>
+                  <th class="data-table__th data-table__th--center">Titres</th>
+                  <th class="data-table__th" style="text-align:right">Prix moy.</th>
+                  <th class="data-table__th" style="text-align:right">Note moy.</th>
+                  <th class="data-table__th" style="text-align:right">Volumes</th>
+                  <th class="data-table__th">Part du catalogue</th>
+                </tr>
+              </thead>
+              <tbody id="stats-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+
+</body>
+</html>

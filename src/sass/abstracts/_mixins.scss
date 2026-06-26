@@ -1,0 +1,164 @@
+// ============================================================
+//  ABSTRACTS / MIXINS
+//
+//  Les mixins sont des blocs de code réutilisables.
+//  Ils peuvent accepter des arguments ($param: valeur-par-défaut).
+//
+//  Déclaration : @mixin nom-du-mixin($arg: default) { ... }
+//  Utilisation : @include nom-du-mixin(valeur);
+//
+//  Différence avec les variables : les mixins génèrent
+//  des blocs de CSS entiers, pas seulement des valeurs.
+// ============================================================
+
+// Import des variables de ce même dossier
+@use 'variables' as v;
+
+// Import du module sass:map pour manipuler les maps SASS
+@use 'sass:map';
+
+// Import du module sass:color pour les fonctions de couleur modernes
+// (remplace les fonctions globales dépréciées lighten(), darken()…)
+@use 'sass:color';
+
+
+// --- Responsive ---
+// ---------------------------------------------------------------
+// Génère une media query min-width au breakpoint demandé.
+// Les breakpoints sont définis dans _variables.scss.
+//
+// Usage : @include responsive('lg') { font-size: 1.5rem; }
+// ---------------------------------------------------------------
+@mixin responsive($bp) {
+  // map.get() récupère une valeur dans une map SASS
+  $width: map.get(v.$breakpoints, $bp);
+
+  @if $width {
+    @media (min-width: #{$width}) {
+      @content; // @content injecte le bloc CSS passé au mixin
+    }
+  } @else {
+    @warn "Breakpoint inconnu : '#{$bp}'. Valeurs acceptées : #{map.keys(v.$breakpoints)}";
+  }
+}
+
+
+// --- Flexbox utilitaires ---
+// ---------------------------------------------------------------
+
+// Centre horizontalement ET verticalement
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Aligne verticalement au centre, distribution horizontale configurable
+// $justify : flex-start | center | flex-end | space-between | space-around
+@mixin flex-align($justify: flex-start) {
+  display: flex;
+  align-items: center;
+  justify-content: $justify;
+}
+
+// Empile les enfants verticalement
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+
+// --- Carte de base ---
+// ---------------------------------------------------------------
+// Styles communs à toutes les cartes du projet.
+// Démontre comment mutualiser des styles visuels récurrents.
+@mixin card-base {
+  background-color: v.$color-bg-card;
+  border: 1px solid v.$color-border-subtle;
+  border-radius: v.$radius-xl;
+  box-shadow: v.$shadow-md;
+}
+
+
+// --- Bouton de base ---
+// ---------------------------------------------------------------
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$spacing-2;
+  padding: v.$spacing-2 v.$spacing-4;
+  border-radius: v.$radius-lg;
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  cursor: pointer;
+  transition: all v.$transition-base;
+  border: none;
+  text-decoration: none;
+}
+
+
+// --- Badge coloré ---
+// ---------------------------------------------------------------
+// Génère les styles d'un badge à partir d'une couleur de base.
+// Utilise rgba() pour la transparence et color.adjust() pour
+// dériver une teinte plus claire (module sass:color).
+//
+// $color : couleur de base du badge
+@mixin badge-variant($color) {
+  background-color: rgba($color, 0.2);
+  color: color.adjust($color, $lightness: 15%);
+  border-color: rgba($color, 0.4);
+}
+
+
+// --- Troncature de texte multi-lignes ---
+// ---------------------------------------------------------------
+// Tronque un texte après $lines lignes avec ellipsis (...).
+// Technique non standard mais très largement supportée.
+@mixin line-clamp($lines: 3) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+// --- Scrollbar personnalisée ---
+// ---------------------------------------------------------------
+@mixin custom-scrollbar($width: 6px, $track: v.$color-bg-surface, $thumb: v.$color-bg-hover) {
+  &::-webkit-scrollbar        { width: $width; }
+  &::-webkit-scrollbar-track  { background: $track; }
+  &::-webkit-scrollbar-thumb  {
+    background: $thumb;
+    border-radius: v.$radius-full;
+    &:hover { background: color.adjust($thumb, $lightness: 10%); }
+  }
+}
+
+
+// --- Focus visible (accessibilité) ---
+// ---------------------------------------------------------------
+// Applique un anneau de focus visible lors de la navigation clavier.
+@mixin focus-ring($color: v.$color-accent) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+}
+
+
+// --- Visually hidden (accessibilité) ---
+// ---------------------------------------------------------------
+// Cache visuellement un élément tout en le gardant accessible
+// aux lecteurs d'écran.
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

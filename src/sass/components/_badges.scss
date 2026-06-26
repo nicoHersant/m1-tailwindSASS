@@ -1,0 +1,45 @@
+// ============================================================
+//  COMPONENTS / BADGES
+//
+//  Étiquettes de catégorie (Shōnen, Shōjo, Seinen, Josei).
+//
+//  Démontre deux fonctionnalités SASS avancées :
+//  1. La directive @each pour générer des classes à la volée
+//  2. La fonction lighten() pour dériver des teintes
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+
+// --- Block : badge ---
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem v.$spacing-2;
+  border-radius: v.$radius-full;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+
+  // --- Génération automatique des variantes ---
+  //
+  // @each parcourt la map $badge-categories définie dans _variables.scss.
+  // Pour chaque paire ($name, $color), il génère une classe :
+  //   .badge--shonen { background-color: rgba(#3b82f6, 0.2); ... }
+  //   .badge--shojo  { background-color: rgba(#ec4899, 0.2); ... }
+  //   ...
+  //
+  // #{$name} est l'interpolation SASS : insère la valeur de la variable
+  // dans le nom du sélecteur.
+  //
+  // Sans @each, il faudrait écrire 4 blocs identiques manuellement.
+  @each $name, $color in v.$badge-categories {
+    &--#{$name} {
+      // @include appelle le mixin badge-variant() défini dans _mixins.scss
+      @include mx.badge-variant($color);
+    }
+  }
+}

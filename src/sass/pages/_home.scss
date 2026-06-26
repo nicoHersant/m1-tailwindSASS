@@ -1,0 +1,111 @@
+// ============================================================
+//  PAGES / HOME
+//
+//  Styles spécifiques à la page d'accueil (grille de cards).
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+
+// --- Section : contrôles (recherche + filtres) ---
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-4;
+
+  // Ligne titre + compteur
+  &__header {
+    @include mx.flex-align(space-between);
+    flex-wrap: wrap;
+    gap: v.$spacing-2;
+  }
+
+  &__title {
+    font-size: v.$font-size-xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+  }
+
+  &__subtitle {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+    margin-top: 0.125rem;
+  }
+
+  &__count {
+    font-size: v.$font-size-sm;
+    color: v.$color-text-muted;
+  }
+
+  // Zone des boutons de filtre
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$spacing-2;
+  }
+}
+
+// --- Grille de cartes ---
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: v.$spacing-6;
+
+  // Responsive : 2 colonnes dès 640px
+  @include mx.responsive('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // 3 colonnes dès 1024px
+  @include mx.responsive('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  // 4 colonnes dès 1280px
+  @include mx.responsive('xl') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// --- État de chargement ---
+.loading-state {
+  @include mx.flex-center;
+  gap: v.$spacing-3;
+  padding: v.$spacing-12 0;
+  color: v.$color-text-muted;
+  grid-column: 1 / -1;  // s'étend sur toutes les colonnes de la grille
+
+  // Animation de rotation (spinner)
+  // @keyframes : règle CSS standard, utilisable avec des variables SASS
+  .spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+// --- État vide (aucun résultat) ---
+.empty-state {
+  text-align: center;
+  padding: v.$spacing-12 0;
+  color: v.$color-text-muted;
+
+  &__icon {
+    font-size: 2.5rem;
+    margin-bottom: v.$spacing-3;
+  }
+
+  &__title {
+    font-weight: v.$font-weight-medium;
+    margin-bottom: v.$spacing-2;
+  }
+
+  &__desc {
+    font-size: v.$font-size-sm;
+  }
+}

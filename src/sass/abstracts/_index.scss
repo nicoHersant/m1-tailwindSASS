@@ -1,0 +1,15 @@
+// ============================================================
+//  ABSTRACTS / INDEX
+//
+//  Point d'entrée du dossier abstracts.
+//  @forward re-exporte les modules pour qu'ils soient
+//  accessibles depuis un seul import :
+//    @use '../abstracts' as *;
+//
+//  Différence @use / @forward :
+//  - @use  : charge un module pour l'utiliser dans CE fichier
+//  - @forward : re-exporte un module vers les fichiers parents
+// ============================================================
+
+@forward 'variables';
+@forward 'mixins';

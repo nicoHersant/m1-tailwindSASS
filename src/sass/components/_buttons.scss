@@ -1,0 +1,73 @@
+// ============================================================
+//  COMPONENTS / BUTTONS
+//
+//  Styles des boutons : principal, fantôme, filtre.
+//  Démontre l'héritage de styles via les mixins.
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+@use 'sass:color';
+
+// --- Bouton principal ---
+.btn {
+  // Le mixin btn-base fournit display, padding, border-radius, etc.
+  @include mx.btn-base;
+
+  // --- Modifier : bouton primaire (action principale) ---
+  &--primary {
+    background-color: v.$color-accent-dark;
+    color: #fff;
+    box-shadow: v.$shadow-sm;
+
+    &:hover {
+      background-color: v.$color-accent;
+      box-shadow: v.$shadow-md;
+    }
+  }
+
+  // --- Modifier : bouton fantôme (action secondaire) ---
+  &--ghost {
+    background-color: transparent;
+    color: v.$color-text-muted;
+    border: 1px solid v.$color-border;
+
+    &:hover {
+      color: v.$color-text-primary;
+      background-color: v.$color-bg-hover;
+      border-color: color.adjust(v.$color-border, $lightness: 10%);
+    }
+  }
+
+  @include mx.focus-ring;
+}
+
+// --- Boutons de filtre par catégorie ---
+.filter-btn {
+  padding: v.$spacing-1 v.$spacing-3;
+  border-radius: v.$radius-full;
+  font-size: v.$font-size-xs;
+  font-weight: v.$font-weight-semibold;
+  border: 1px solid v.$color-border;
+  cursor: pointer;
+  transition: all v.$transition-base;
+  background: transparent;
+  color: v.$color-text-muted;
+
+  &:hover {
+    border-color: color.adjust(v.$color-border, $lightness: 15%);
+    color: v.$color-text-secondary;
+  }
+
+  // --- Modifier : filtre actif ---
+  &--active {
+    background-color: v.$color-accent-dark;
+    border-color: v.$color-accent-dark;
+    color: #fff;
+
+    &:hover {
+      background-color: v.$color-accent;
+      border-color: v.$color-accent;
+    }
+  }
+}

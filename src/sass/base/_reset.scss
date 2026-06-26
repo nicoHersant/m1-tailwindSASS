@@ -1,0 +1,77 @@
+// ============================================================
+//  BASE / RESET
+//
+//  Styles de base et normalisation.
+//  Appliqués une seule fois, globalement.
+//  Ce fichier s'inspire du "Preflight" de Tailwind et de
+//  normalize.css.
+// ============================================================
+
+@use '../abstracts/variables' as v;
+
+// --- Box-sizing universel ---
+// Inclut padding et border dans le calcul de la largeur.
+// Bonne pratique adoptée par tous les frameworks modernes.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// --- Styles de base du document ---
+html {
+  font-size: 16px;               // base pour les rem
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%; // évite le zoom auto sur iOS
+}
+
+body {
+  font-family: v.$font-family-base;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-weight-normal;
+  line-height: v.$line-height-base;
+  color: v.$color-text-primary;
+  background-color: v.$color-bg-app;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+// --- Éléments de bloc ---
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word; // évite les débordements de texte long
+}
+
+// --- Liens ---
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// --- Images ---
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+// --- Formulaires ---
+// Normalise la police sur les éléments de formulaire
+// (ils n'héritent pas de la police par défaut dans certains navigateurs)
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+// --- Tableaux ---
+table {
+  border-collapse: collapse;
+  width: 100%;
+}

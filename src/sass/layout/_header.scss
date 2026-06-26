@@ -1,0 +1,88 @@
+// ============================================================
+//  LAYOUT / HEADER
+//
+//  Barre du haut : bouton toggle, titre, actions.
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+@use 'sass:color';
+
+.header {
+  @include mx.flex-align(space-between);
+  height: v.$header-height;
+  background-color: v.$color-bg-card;
+  border-bottom: 1px solid v.$color-border;
+  padding: 0 v.$spacing-6;
+  position: sticky;
+  top: 0;
+  z-index: 10;   // reste au-dessus du contenu lors du scroll
+  gap: v.$spacing-4;
+
+  // --- Element : bouton hamburger ---
+  &__toggle {
+    background: none;
+    border: none;
+    color: v.$color-text-muted;
+    font-size: v.$font-size-xl;
+    cursor: pointer;
+    padding: v.$spacing-1;
+    border-radius: v.$radius-md;
+    line-height: 1;
+    transition: color v.$transition-base;
+    flex-shrink: 0;
+
+    &:hover {
+      color: v.$color-accent;
+    }
+
+    @include mx.focus-ring;
+  }
+
+  // --- Element : titre de la page ---
+  &__title {
+    font-size: v.$font-size-lg;
+    font-weight: v.$font-weight-semibold;
+    letter-spacing: 0.025em;
+    // flex: 1 permet au titre de prendre l'espace restant
+    // et de se centrer visuellement entre le bouton et les actions
+  }
+
+  // --- Element : zone d'actions (compteur, avatar…) ---
+  &__actions {
+    @include mx.flex-align;
+    gap: v.$spacing-3;
+  }
+
+  // --- Element : badge compteur ---
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: v.$spacing-1 v.$spacing-3;
+    border-radius: v.$radius-full;
+    background-color: rgba(v.$color-accent, 0.2);
+    color: color.adjust(v.$color-accent, $lightness: 15%);
+    border: 1px solid rgba(v.$color-accent, 0.3);
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-medium;
+    white-space: nowrap;
+
+    // Masqué sur petits écrans
+    @media (max-width: 639px) {
+      display: none;
+    }
+  }
+
+  // --- Element : avatar utilisateur ---
+  &__avatar {
+    @include mx.flex-center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: v.$radius-full;
+    background: linear-gradient(135deg, v.$color-accent, #8b5cf6);
+    font-size: v.$font-size-xs;
+    font-weight: v.$font-weight-bold;
+    color: #fff;
+    flex-shrink: 0;
+  }
+}

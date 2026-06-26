@@ -1,0 +1,122 @@
+// ============================================================
+//  COMPONENTS / STAT CARDS
+//
+//  Cartes de statistiques (KPI — Key Performance Indicators).
+//  Démontre l'utilisation combinée de mixin + @each.
+// ============================================================
+
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+@use 'sass:color';
+
+// --- Grille des KPI ---
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: v.$spacing-4;
+
+  @include mx.responsive('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mx.responsive('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+// --- Carte KPI individuelle ---
+.kpi-card {
+  @include mx.card-base;
+  @include mx.flex-align;
+  gap: v.$spacing-4;
+  padding: v.$spacing-5;
+
+  // --- Element : icône ---
+  &__icon {
+    @include mx.flex-center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: v.$radius-xl;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  // --- Element : contenu texte ---
+  &__content {
+    @include mx.flex-column;
+    min-width: 0;   // évite les débordements en flex
+  }
+
+  // --- Element : valeur principale ---
+  &__value {
+    font-size: v.$font-size-2xl;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+    line-height: 1;
+  }
+
+  // --- Element : libellé ---
+  &__label {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    margin-top: v.$spacing-1;
+  }
+
+  // --- Modificateurs colorés pour l'icône ---
+  // Démontre @each avec une map locale
+  $kpi-colors: (
+    'blue':   v.$color-accent,
+    'green':  v.$color-success,
+    'purple': #8b5cf6,
+    'orange': #f97316,
+  );
+
+  @each $name, $color in $kpi-colors {
+    &--#{$name} &__icon {
+      background-color: rgba($color, 0.2);
+      color: color.adjust($color, $lightness: 10%);
+    }
+  }
+}
+
+
+// --- Cartes de graphiques ---
+.chart-card {
+  @include mx.card-base;
+  padding: v.$spacing-6;
+
+  // --- Element : en-tête ---
+  &__header {
+    margin-bottom: v.$spacing-4;
+  }
+
+  &__title {
+    font-size: v.$font-size-base;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-text-primary;
+  }
+
+  &__subtitle {
+    font-size: v.$font-size-xs;
+    color: v.$color-text-muted;
+    margin-top: v.$spacing-1;
+  }
+
+  // --- Element : conteneur du canvas Chart.js ---
+  // Une hauteur fixe est nécessaire pour Chart.js (maintainAspectRatio: false)
+  &__canvas {
+    position: relative;
+    height: 16rem;   // 256px
+  }
+}
+
+// --- Grille des graphiques ---
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: v.$spacing-6;
+
+  @include mx.responsive('lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
